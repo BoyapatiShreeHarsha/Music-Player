@@ -1,0 +1,22 @@
+.widgetcard-body{
+    width: 28%;
+    height: 74%;
+    overflow-y: hidden;
+    border-radius: 30px;
+    background: rgb(30,42,62);
+    background: linear-gradient(75deg,rgb(40,58,88) 0%,rgba(54,69,98,0) 100%);
+    padding: 1% 3%;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.widgetcard-body:hover{
+    transform: scale(1.05);
+
+}
+
+.widget-title{
+    font-size: 14px;
+    font-weight: 800;
+    color: #c4d0e3;
+}
