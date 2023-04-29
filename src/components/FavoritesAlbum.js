@@ -4,6 +4,7 @@ import { IconContext } from 'react-icons';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import Loader from './Loder';
 import "../components_css/Fav_album.css"
+import { useNavigate} from 'react-router-dom';
 
 const FavoritesAlbum = () => {
     const [fav_album, setfav_album] = useState([]);
@@ -82,8 +83,10 @@ const FavoritesAlbum = () => {
     fav_update_album();
   }
 
+  let navigate=useNavigate();
   let PlayFavAlbum = (id) => {
-    console.log(id);
+    // console.log(id);
+    navigate("/player",{state:{id:id,operation:3}});
   }
   return (
       <div className="fav_album-body">

@@ -1,6 +1,6 @@
 .albumInfo-card{
-    margin-top: 20px;
-    width: 80%;
+    margin:auto auto;
+    width: 70%;
 }
 
 .albumInfo-card p{
@@ -9,7 +9,7 @@
 
 .albumName-container{
     /* for marquee */
-    width: 100%;
+    width: 90%;
     overflow: hidden;
     /* done */
 
@@ -35,14 +35,14 @@
 }
 
 .album-info{
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     color: #9AA9C2;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
 }
 

@@ -5,6 +5,7 @@ import { AiFillPlayCircle } from 'react-icons/ai';
 import Loader from './Loder';
 import "../components_css/Toplist.css"
 import "../components_css/album.css"
+import { useNavigate} from 'react-router-dom';
 
 const Toplist = () => {
     const [tops, setTops] = useState([]);
@@ -82,8 +83,9 @@ const Toplist = () => {
         update_topList();
     }
 
-    let PlayAlbum = (id) => {
-        console.log(id);
+    let navigate=useNavigate();
+    let PlayToplist = (id) => {
+        navigate("/player",{state:{id:id,operation:1}});
     }
 
 
@@ -110,7 +112,7 @@ const Toplist = () => {
                 {
                     tops.map((top) => {
                         return (
-                            <div key={top.id} className="album-card" onClick={() => PlayAlbum(top.id)} >
+                            <div key={top.id} className="album-card" onClick={() => PlayToplist(top.id)} >
                                 <img src={top.images[0].url} className="album-img" alt="album img" />
                                 <p className="album-title">{top.name}</p>
                                 <p className="album-subtitle">{top.tracks.total} Songs</p>

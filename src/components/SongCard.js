@@ -3,11 +3,19 @@ import "../components_css/songCard.css"
 import AlbumImage from './AlbumImage'
 import AlbumInfo from './AlbumInfo'
 
-function SongCard({album}) {
+
+function SongCard({album,operation,info,img}) {
+  let obj;
+  if(operation===3)
+  {
+    obj=info;
+  }
+  else
+  obj=album;
   return (
     <div className='songCard-body flex'>
-      <AlbumImage url={album?.images[0]?.url}/>
-      <AlbumInfo album={album}/>
+      <AlbumImage url={img}/>
+      <AlbumInfo album={obj}/>
     </div>
   )
 }

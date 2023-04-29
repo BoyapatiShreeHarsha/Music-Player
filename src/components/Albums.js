@@ -4,6 +4,7 @@ import { IconContext } from 'react-icons';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import Loader from './Loder';
 import "../components_css/album.css"
+import { useNavigate} from 'react-router-dom';
 
 const Albums = () => {
   const [albums, setAlbums] = useState([]);
@@ -81,8 +82,10 @@ const Albums = () => {
     update_album();
   }
 
-  let PlayAlbum = (id) => {
-    console.log(id);
+  let navigate=useNavigate();
+  let PlayAlbums = (id) => {
+    // console.log(id); 
+       navigate("/player",{state:{id:id,operation:1}});
   }
 
   return (
@@ -108,7 +111,7 @@ const Albums = () => {
         {
           albums.map((album) => {
             return (
-              <div key={album.id} className="album-card" onClick={() => PlayAlbum(album.id)} >
+              <div key={album.id} className="album-card" onClick={() => PlayAlbums(album.id)} >
                 <img src={album.images[0].url} className="album-img" alt="album img" />
                 <p className="album-title">{album.name}</p>
                 <p className="album-subtitle">{album.tracks.total} Songs</p>

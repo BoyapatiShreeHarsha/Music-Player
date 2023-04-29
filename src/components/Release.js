@@ -4,6 +4,7 @@ import { IconContext } from 'react-icons';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import '../components_css/release.css'
 import Loader from './Loder';
+import { useNavigate} from 'react-router-dom';
 
 
 export default function Feed() {
@@ -54,6 +55,7 @@ export default function Feed() {
     try {
       setLoading(true);
       let respons2 = await apiClient.get(`/v1/browse/new-releases?country=IN&offset=${offset}&limit=5`)
+      // console.log(respons2);
       setReleases([...respons2.data?.albums?.items]);
       setTotal(respons2.data?.albums?.total);
       setLoading(false);
@@ -82,9 +84,9 @@ export default function Feed() {
     update_release();
   }
 
-
+  let navigate=useNavigate();
   let PlayRelease = (id) => {
-    console.log(id);
+    navigate("/player",{state:{id:id,operation:3}});
   }
 
   let artists_name = (arr) => {

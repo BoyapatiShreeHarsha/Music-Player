@@ -4,13 +4,34 @@ import ProgressCircle from './ProgressCircle'
 import WaveAnimation from './WaveAnimation'
 import Controls from './Controls'
 
-function AudioPlayer({ currenttrack, currentindex, setCurrentindex, total }) {
+function AudioPlayer({ currenttrack, currentindex, setCurrentindex, total,operation,img}) {
     // console.log(total);
+    // console.log(total[currentindex]);
+    // console.log(currentindex);
+    // console.log(currenttrack);
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [trackProgress, setTrackProgress] = useState(0);
-    let audioSrc = total[currentindex]?.track.preview_url; //this store the song url which we are going to play
-    let audioRef = useRef(new Audio(total[0]?.track.preview_url)); //initially we are initialing it with 0 index as default and when we got the current song url and we press the play button it will go to audioSrc
+
+    let aS="";
+    let aR="";
+    if(operation===2)
+    {
+        aS = currenttrack.preview_url; 
+        aR = currenttrack.preview_url;
+    }
+    else if(operation===1)
+    {
+        aS = total[currentindex]?.track.preview_url;
+        aR = total[0]?.track.preview_url;
+    }
+    else if(operation===3)
+    {
+        aS=total[currentindex]?.preview_url;
+        aR=currenttrack?.preview_url;
+    }
+    let audioSrc = aS //this store the song url which we are going to play
+    let audioRef = useRef(new Audio(aR)); //initially we are initialing it with 0 index as default and when we got the current song url and we press the play button it will go to audioSrc
 
     let intervalRef = useRef();  //a pointer towards that particular trackes created setInterval
 
@@ -113,7 +134,7 @@ function AudioPlayer({ currenttrack, currentindex, setCurrentindex, total }) {
     return (
         <div className="audio-body flex">
             <div className="audio-left-body">
-                <ProgressCircle percentage={currentPercentage} isPlaying={isPlaying} image={currenttrack?.album?.images[0]?.url} size={300} color="#C96850" />
+                <ProgressCircle percentage={currentPercentage} isPlaying={isPlaying} image={img} size={300} color="#C96850" />
             </div>
             <div className="audio-right-body flex">
                 <p className="song-title">{currenttrack?.name}</p>
@@ -122,7 +143,7 @@ function AudioPlayer({ currenttrack, currentindex, setCurrentindex, total }) {
                     <div className="song-duration flex">
                         <p className="duration">0:{addzero(Math.round(trackProgress))}</p>
                         <WaveAnimation isPlaying={isPlaying} />
-                        <p className="duration">0:{Math.round(duration) === 30 ? "00" : Math.round(duration)}</p>
+                        <p className="duration">0:{Math.round(duration) === 30 ? "30" : Math.round(duration)}</p>
                     </div>
                     <Controls isPlaying={isPlaying} setIsPlaying={setIsPlaying} handleNext={handleNext} handlePrev={handlePrev} />
                 </div>

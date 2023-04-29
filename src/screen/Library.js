@@ -24,7 +24,7 @@ export default function Library() {
 
   let navigate=useNavigate();
   let PlayPlaylist=(id)=>{
-    navigate("/player",{state:{id:id}});
+    navigate("/player",{state:{id:id,operation:1}});
   }
   return (
     <div className='screen-container' >

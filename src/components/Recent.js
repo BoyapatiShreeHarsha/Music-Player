@@ -4,6 +4,7 @@ import { IconContext } from 'react-icons';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import Loader from './Loder';
 import "../components_css/album.css"
+import { useNavigate} from 'react-router-dom';
 
 const Recent = () => {
     // const [prevRecent, setPrevRecent] = useState([]);
@@ -116,8 +117,10 @@ const Recent = () => {
       update_next();
     }
   
-    let PlayAlbum = (id) => {
-      console.log(id);
+    let navigate=useNavigate();
+    let PlayRecent = (id) => {
+      // console.log(id);
+      navigate("/player",{state:{id:id,operation:2}});
     }
 
     let artists_name = (arr) => {
@@ -157,7 +160,7 @@ const Recent = () => {
           {
             recent.map((ele) => {
               return (
-                <div key={ele?.track?.id} className="album-card" onClick={() => PlayAlbum(ele?.track?.id)} >
+                <div key={ele?.track?.id} className="album-card" onClick={() => PlayRecent(ele?.track?.id)} >
                   <img src={ele?.track?.album?.images[0].url} className="album-img" alt="album img" />
                   <p className="album-title">{ele?.track?.name}</p>
                   <p className="album-subtitle">{artists_name(ele?.track?.artists)}</p>

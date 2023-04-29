@@ -4,6 +4,7 @@ import { IconContext } from 'react-icons';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import '../components_css/FavoritesTrack.css'
 import Loader from './Loder';
+import { useNavigate} from 'react-router-dom';
 
 const FavoritesTrack = () => {
 
@@ -84,8 +85,10 @@ const FavoritesTrack = () => {
 
   }
 
-  let PlayTrack = (id) => {
-    console.log(id);
+  let navigate=useNavigate();
+  let FavPlayTrack = (id) => {
+    // console.log(id);
+    navigate("/player",{state:{id:id,operation:2}});
   }
 
   let artists_name = (arr) => {
@@ -122,7 +125,7 @@ const FavoritesTrack = () => {
       {!loading && (<div className="fav-tracks-bottom-body">
         {
           fav_tracks.map((ele) => {
-            return (<div key={ele.track?.id} className='fav-tracks-card' onClick={() => PlayTrack(ele.track?.id)}>
+            return (<div key={ele.track?.id} className='fav-tracks-card' onClick={() => FavPlayTrack(ele.track?.id)}>
               <img src={ele.track?.album?.images[0]?.url} className="fav-tracks-img" alt="fav-tracks img" />
               <p className="fav-tracks-title">{ele.track?.album?.name}</p>
               <p className="fav-tracks-artist">{artists_name(ele.track?.album?.artists)}</p>
