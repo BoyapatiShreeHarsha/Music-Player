@@ -1,0 +1,33 @@
+*{
+    padding: 0px 0px;
+    margin: 0px 0px;
+    box-sizing: border-box;
+}
+
+.feed-body{
+    width: 100%; /* total width of this library component is 100% and we are giving A padding of 3+3 =100 */
+    margin-top: 1%;
+    margin-bottom: 1%;
+    height:98vh;
+    padding-left: 1%;
+    display: flex;
+    flex-wrap: wrap;
+    /* overflow-x: hidden; */
+    overflow-y: auto; /* when the height is filled there will be a scroll bar */
+    justify-content: space-between;
+}
+
+::-webkit-scrollbar{
+    width: 0.5vw;
+
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #233656 ;
+    border-radius: 30px;
+}
+
+::-webkit-scrollbar-track{
+    background-color:#1E2A3E ;
+    border-radius: 30px;
+}

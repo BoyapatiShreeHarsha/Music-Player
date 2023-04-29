@@ -1,22 +1,28 @@
+
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
 .library-body{
-    width: 90%; /* total width of this library component is 100% and we are giving A padding of 3+3 =100 */
-    height:85%;
+    width: 100%; /* total width of this library component is 100% and we are giving A padding of 3+3 =100 */
+    height:90%;
     padding: 3%;
     display: flex;
     flex-wrap: wrap;
     overflow-y: auto; /* when the height is filled there will be a scroll bar */
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .playlist-card{
     position: relative;
     width: 15%;
-    height: 40%;
+    /* height: 40%; */
     border-radius: 20px;
     background-color: rgb(30, 42, 62);
     border: 1px solid rgba(54,69,98,0.18);
-    padding: 1%;
-    margin-bottom: 2%;
+    padding: 1% 2%;
+    margin: 2% 2%;
     background: linear-gradient(75deg,rgb(40,58,88) 0%,rgba(54,69,98,0) 100%);
     transition: all 0.2s ease;
     cursor: pointer;
@@ -42,7 +48,6 @@
     color: #c4d0e3;
     margin: 10px 0px 10px;
     /* to control the title to 2 lines */
-    /* once see this also */
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -63,7 +68,7 @@
     right: 0;
     bottom: 0;
     opacity: 0;
-    width: 84%;
+    width: 100%;
     height: 34%;
     border-radius: 20px;
     background:linear-gradient(180deg,rgba(54,69,98,0) 10%,rgba(54,69,98,1) 100%);
@@ -71,5 +76,5 @@
     align-items: flex-end;
     justify-content: flex-end;
     padding: 8%;
-    transition: 0.5s ease;
+    transition: all 0.2s ease;
 }

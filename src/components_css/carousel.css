@@ -1,0 +1,20 @@
+*{
+    margin: 0% 0%;
+    padding: 0% 0%;
+}
+
+.carousel-body{
+    width: 90%;
+    height: 60vh;
+    margin: 2% auto 0%;
+    border-radius: 30px;
+    background: linear-gradient(0deg,rgba(30,42,62,1) 0%,rgba(54,69,98,0.1) 100%);
+}
+
+.w {
+    width: 75%;
+    margin: auto;
+    height: 60vh !important;
+    /* aspect-ratio: 1; */
+    border-radius: 30px;
+  }

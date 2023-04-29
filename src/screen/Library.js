@@ -10,6 +10,7 @@ export default function Library() {
   let getplaylist = async () => {
     try {
       let respons2 = await apiClient.get(`/v1/me/playlists`);
+      // console.log(respons2);
       // console.log(respons2.data.items);
       setPlaylists(respons2.data.items);
       

@@ -38,10 +38,11 @@ function Widges({ artistId, currentindex }) {
     }
 
     useEffect(() => {
-        console.log(artistId?.artists[currentindex]?.id);
+        // console.log(artistId?.artists[currentindex]?.id);
         if(artistId?.artists[currentindex]?.id)
         artistsUpdate();
     }, [currentindex])
+    if(artistId!=undefined)
     return (
         <div className='widgets-body flex'>
             <WidgetCard title="Similar Artists" similar={similar} />
@@ -49,6 +50,8 @@ function Widges({ artistId, currentindex }) {
             <WidgetCard title="New Releases" newRelease={newRelease} />
         </div>
     )
+    else
+    return (<></>)
 }
 
 export default Widges

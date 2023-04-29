@@ -1,6 +1,6 @@
 import React from 'react'
 import "../screen_css/player.css"
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import apiClient from '../spotify';
 import { useState ,useEffect } from "react"
 import SongCard from '../components/SongCard'
@@ -10,6 +10,11 @@ import Widges from '../components/Widges';
 
 export default function Player() {
   let location=useLocation();
+  let navigate=useNavigate();
+  if(location.state==undefined)
+  {
+    navigate("/library");
+  }
   const [track, setTrack] = useState([]); //store all the songs in the playlist
   const [currenttrack, setCurrenttrack] = useState({});  //the current song to play
   const [currentindex, setCurrentindex] = useState(0);
@@ -30,8 +35,8 @@ export default function Player() {
 
   useEffect(()=>{
     setCurrenttrack(track[currentindex]?.track)
-  },[currentindex,track])
-  
+  },[currentindex,track]) //here track as no effect
+  // final analysis : so here the clicked playlist all tracks and currenttrack as 0 is set and current track is send to all other components and option to change the currenttrack not the entire playlist
   return (
     <div className='screen-container flex'>
       <div className="left-player-body">

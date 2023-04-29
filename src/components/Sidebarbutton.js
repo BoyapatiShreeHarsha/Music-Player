@@ -10,6 +10,7 @@ export default function Sidebarbutton(props) {
     let btnClass= isActive ? "btn-body active" : "btn-body";
     return (
         <Link to={props.to}>
+            {/* normally in the bootstrap only text is written here we are doing custom link(it is like a) */}
             <div className={btnClass}>
                 {/* IconContext is imported to style the react icon */}
                 <IconContext.Provider value={{ size: "24px", className: "btn-icon" }}>

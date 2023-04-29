@@ -1,0 +1,17 @@
+*{
+    padding: 0px 0px;
+    margin: 0px 0px;
+    box-sizing: border-box;
+}
+
+.fav-body{
+    width: 100%; /* total width of this library component is 100% and we are giving A padding of 3+3 =100 */
+    margin-top: 1%;
+    margin-bottom: 1%;
+    height:98%;
+    padding-left: 1%;
+    display: flex;
+    flex-wrap:wrap;
+    overflow-y: auto; /* when the height is filled there will be a scroll bar */
+    justify-content: space-between;
+}

@@ -12,11 +12,11 @@ function AudioPlayer({ currenttrack, currentindex, setCurrentindex, total }) {
     let audioSrc = total[currentindex]?.track.preview_url; //this store the song url which we are going to play
     let audioRef = useRef(new Audio(total[0]?.track.preview_url)); //initially we are initialing it with 0 index as default and when we got the current song url and we press the play button it will go to audioSrc
 
-    let intervalRef = useRef();  //to start/stop the time counter
+    let intervalRef = useRef();  //a pointer towards that particular trackes created setInterval
 
-    let isReady = useRef(false);
+    let isReady = useRef(false);  //it need to survive the render
 
-    let { duration } = audioRef.current;
+    let { duration } = audioRef.current;  //we will get HTMLAudioElement
 
     let currentPercentage = duration ? (trackProgress / duration) * 100 : 0; // when the state variable trackProgress changes the entire component rerenders so currentPercentage also changes
 
@@ -122,7 +122,7 @@ function AudioPlayer({ currenttrack, currentindex, setCurrentindex, total }) {
                     <div className="song-duration flex">
                         <p className="duration">0:{addzero(Math.round(trackProgress))}</p>
                         <WaveAnimation isPlaying={isPlaying} />
-                        <p className="duration">0:{Math.round(duration) === NaN ? "00" : Math.round(duration)}</p>
+                        <p className="duration">0:{Math.round(duration) === 30 ? "00" : Math.round(duration)}</p>
                     </div>
                     <Controls isPlaying={isPlaying} setIsPlaying={setIsPlaying} handleNext={handleNext} handlePrev={handlePrev} />
                 </div>
