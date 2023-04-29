@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+##phase-1
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##authentication page
 
-## Available Scripts
+![1](https://user-images.githubusercontent.com/110366987/230696525-f75be0fc-5350-41f0-ae87-d97beb42567b.png)
 
-In the project directory, you can run:
+##login through my spotify account
 
-### `npm start`
+![2](https://user-images.githubusercontent.com/110366987/230696538-424b23f1-66f9-4d50-a244-66e58da51052.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+##playlists page
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![3](https://user-images.githubusercontent.com/110366987/230696545-6310f63d-9180-4384-a771-8518806bc689.png)
 
-### `npm test`
+### when we click on one of the playlist
+##player page
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![4](https://user-images.githubusercontent.com/110366987/230696561-bbfba197-ec1e-4bff-a85b-491d827812be.png)
 
-### `npm run build`
+##phase-2
+What's New
+1) Improved the CSS of Album card
+2) Created Home Page-> added carousel slider
+                    -> added users reacently played
+                             top charts
+                             recommendation
+                             new releases
+                    -> added loader
+                    -> added buttons to slide horizontally on data
+3) Created Favourite Page ->added saved tracks 
+                          ->added saved albums of user
+                          
+![1](https://user-images.githubusercontent.com/110366987/235288439-09082cf8-fdec-45d5-b6a2-264dd3f838a8.png)
+![2](https://user-images.githubusercontent.com/110366987/235288444-7e72159e-40b3-4125-961f-d635063cb3c4.png)
+![3](https://user-images.githubusercontent.com/110366987/235288446-97c945e1-38f1-433a-a03c-2068b292691a.png)
+![4](https://user-images.githubusercontent.com/110366987/235288452-7af22947-f045-44ef-a4ec-7b290f155e57.png)
+![5](https://user-images.githubusercontent.com/110366987/235288458-b8f610e1-3a27-4a09-84a3-5690964f731a.png)
+![6](https://user-images.githubusercontent.com/110366987/235288464-2e6b4651-ed43-473c-953d-59e361916c4f.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
