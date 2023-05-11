@@ -5,6 +5,7 @@ import WaveAnimation from './WaveAnimation'
 import Controls from './Controls'
 
 function AudioPlayer({ currenttrack, currentindex, setCurrentindex, total,operation,img}) {
+    // data is coming every sec
     // console.log(total);
     // console.log(total[currentindex]);
     // console.log(currentindex);
@@ -145,7 +146,7 @@ function AudioPlayer({ currenttrack, currentindex, setCurrentindex, total,operat
                         <WaveAnimation isPlaying={isPlaying} />
                         <p className="duration">0:{Math.round(duration) === 30 ? "30" : Math.round(duration)}</p>
                     </div>
-                    <Controls isPlaying={isPlaying} setIsPlaying={setIsPlaying} handleNext={handleNext} handlePrev={handlePrev} />
+                    <Controls isPlaying={isPlaying} setIsPlaying={setIsPlaying} handleNext={handleNext} handlePrev={handlePrev} currenttrack={currenttrack} fav={false} />
                 </div>
 
             </div>

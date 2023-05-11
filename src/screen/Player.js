@@ -22,7 +22,7 @@ export default function Player() {
   const [t, setT] = useState({});
   const [info, setInfo] = useState({});
   const [img, setImg] = useState(deimg);
-  let single;
+  // let single;
   // const img = useRef(deimg);
 
   let update= async ()=>{
@@ -66,7 +66,7 @@ export default function Player() {
     }
     else if(location.state.operation===2)
     {
-      console.log(t);
+      // console.log(t);
       setCurrenttrack(t); 
     }
     else if(location.state.operation===3)
@@ -85,7 +85,7 @@ export default function Player() {
         {/* <Widges artistId={currenttrack?.album} currentindex={currentindex}/> */}
       </div>
       <div className="right-player-body">
-        <Queue track={track} setcurrentindex={setCurrentindex} operation={location.state.operation} single={currenttrack}/>
+        <Queue track={track} setcurrentindex={setCurrentindex} operation={location.state.operation} single={currenttrack} id={location.state.id} info={info}/>
       </div>
     </div>
   )
