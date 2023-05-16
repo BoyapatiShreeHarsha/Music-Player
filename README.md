@@ -38,3 +38,11 @@ What's New
 ![6](https://user-images.githubusercontent.com/110366987/235288464-2e6b4651-ed43-473c-953d-59e361916c4f.png)
 
 
+##phase-2-3
+added the "add playlist/album/track to a playlist"
+added the "save track/album"
+improved the queue by dividing into the previous,curr,upcoming and added scroll into the current track
+
+##phase-2-3
+going to do optimisation by friday
+
