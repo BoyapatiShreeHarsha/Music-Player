@@ -118,9 +118,14 @@ const Recent = () => {
     }
   
     let navigate=useNavigate();
-    let PlayRecent = (id) => {
-      // console.log(id);
-      navigate("/player",{state:{id:id,operation:2}});
+    let PlayRecent = (id,img,name,artist_arr,type) => {
+      let artist=[];
+    artist_arr?.forEach((element)=>{
+        artist.push(element.name);
+    });
+
+    let des=`It is a ${type} by ${artist.join(", ")}`
+    navigate("/player",{state:{id:id,operation:2,img:img,name:name,des:des}});
     }
 
     let artists_name = (arr) => {
@@ -160,7 +165,7 @@ const Recent = () => {
           {
             recent.map((ele) => {
               return (
-                <div key={ele?.track?.id} className="album-card" onClick={() => PlayRecent(ele?.track?.id)} >
+                <div key={ele?.track?.id} className="album-card" onClick={() => PlayRecent(ele?.track?.id,ele?.track?.album?.images[0].url,ele?.track?.name,ele?.track?.artists,ele.track?.type)} >
                   <img src={ele?.track?.album?.images[0].url} className="album-img" alt="album img" />
                   <p className="album-title">{ele?.track?.name}</p>
                   <p className="album-subtitle">{artists_name(ele?.track?.artists)}</p>

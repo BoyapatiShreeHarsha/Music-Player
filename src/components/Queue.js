@@ -1,121 +1,148 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React from 'react'
+import { useState,useRef, useEffect } from "react"
 import "../components_css/queue.css"
-import apiClient from '../spotify'
-import AlbumInfo from './AlbumInfo';
+import { IoMdMusicalNote } from 'react-icons/io';
+import { IconContext } from 'react-icons'
 
-function Queue({ track, setcurrentindex, operation, single, id ,info}) {
 
-  let obj;
-  if(operation===3)
-  {
-    obj=info;
-  }
-  else
-  obj=track;
+function Queue({ track, setcurrentindex, operation, currentindex }) {
 
-  // console.log(track);
-  // console.log(operation);
-  let heartRef = useRef();
-  let fav = false;
-  const [favrioute, setFavrioute] = useState(fav);
+  const [prev, setPrev] = useState([]);
+  const [next, setNext] = useState([]);
+  const [curr, setCurr] = useState([]);
+  // const [scroll, setScroll] = useState(false);
+  let currRef = useRef();
 
-  if (operation == 2 || operation == 1) {
-    heartRef.current?.classList.add('hide');
-  }
 
-  let setheart = () => {
-    if (fav) {
-      heartRef.current?.classList.remove('fa-regular');
-      heartRef.current?.classList.add('fa-solid');
+  let getPrevArr = () => {
+    let p = [];
+    for (let index = 0; index < currentindex; index++) {
+      p.push(track[index]);
     }
-    else {
-      // console.log("Got wrong");
-      heartRef.current?.classList.remove('fa-solid');
-      heartRef.current?.classList.add('fa-regular');
+    setPrev(p);
+    let c=[];
+    c.push(track[currentindex])
+    setCurr(c);
+  }
+
+  let getNextArr = () => {
+    let n = [];
+    for (let index = currentindex + 1; index < track.length; index++) {
+      n.push(track[index]);
     }
+    setNext(n);
   }
 
 
-  let check = async () => {
-    if (operation === 3) {
-      let response = await apiClient.get(`/v1/me/albums/contains?ids=${id}`);
-      // console.log(response?.data[0]);
-      fav = response?.data[0];
-      setFavrioute(response?.data[0]);
-      setheart();
-    }
+  let scrolltoPosition=()=>{
+    let ele=currRef.current;
+    ele.scrollIntoView({ behavior: 'smooth' });
   }
-
-  let favtoggle = async () => {
-    try {
-
-      let obj = { "ids": [id] };
-      if (operation === 3) {
-        if (favrioute) {
-          //we need to remove it
-          let res = await apiClient.delete(`/v1/me/albums`, obj);
-          fav = false;
-          setFavrioute(false);
-          setheart();
-        }
-        else {
-          //we need to add it 
-          let res = await apiClient.put(`/v1/me/albums`, obj);
-          fav = true;
-          setFavrioute(true);
-          setheart();
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-  }
-
-
 
   useEffect(() => {
-    if (track !== undefined || track !== {}) {
-      check();
+    if (operation !== 2) {
+      getPrevArr();
+      getNextArr();
+
+      setTimeout(() => {
+        scrolltoPosition();
+      }, 1000);
+      
     }
-  }, [track])
+  }, [currentindex, track]);
 
-
-
-
-
-  let arr = new Array();
-  if (operation === 1) {
-    track?.map((element) => {
-      arr.push(element?.track?.name);
-    })
-  }
-  else if (operation === 2) {
-    arr.push(single?.name);
-  }
-  else if (operation === 3) {
-    track?.map((element) => {
-      arr.push(element?.name);
-    })
-  }
   return (
     <div className="queue-container flex">
-      <div className="queue-info">
-        <AlbumInfo album={obj}/>
-      </div>
       <div className="queue flex">
-
-        <p><i ref={heartRef} className="fa-solid fa-heart" onClick={favtoggle} ></i></p>
-
-        <p className="upNext">Up Next</p>
         <div className="queue-list">
           {
-            arr?.map((name, index) => {
-              return (<div key={index} className="queue-item flex" onClick={() => setcurrentindex(index)}>
-                <p className="track-name">{name}</p>
-                <p>0:30</p>
-              </div>)
-            })
+            operation === 1 && prev.length !== 0 &&
+            <>
+              <div className="queue-list-heading">Previous</div>
+              {
+                prev?.map((ele, index) => {
+                  return (<div key={index} className='queue-item flex' onClick={() => setcurrentindex(index)}>
+                    <p className="track-name">{ele?.track?.name}</p>
+                    <p>0:30</p>
+                  </div>)
+                })
+              }
+
+            </>
+          }
+          {
+            operation === 1 &&
+            <div  ref={currRef} key={currentindex} className='queue-item-curr flex'>
+              <p className="track-name">
+              <IconContext.Provider value={{ size: "14px", className: "btn-icon" }}>
+                    <IoMdMusicalNote/>
+                </IconContext.Provider>
+                {curr[0]?.track?.name}</p>
+              <p>0:30</p>
+             
+            </div>
+
+          }
+          {
+            operation === 1 && next.length !== 0 &&
+            <>
+              <div className="queue-list-heading">Upcoming</div>
+
+              {
+                next?.map((ele, index) => {
+                  return (<div key={index + currentindex + 1} className='queue-item flex' onClick={() => setcurrentindex(index + currentindex + 1)}>
+                    <p className="track-name">{ele?.track?.name}</p>
+                    <p>0:30</p>
+                    
+                  </div>)
+                })
+              }
+            </>
+          }
+
+          {
+            operation === 3 && prev.length !== 0 &&
+            <>
+              <div className="queue-list-heading">Previous</div>
+
+              {
+                prev?.map((ele, index) => {
+                  return (<div key={index} className='queue-item flex' onClick={() => setcurrentindex(index)}>
+                    <p className="track-name">{ele?.name}</p>
+                    <p>0:30</p>
+                  </div>)
+                })
+              }
+
+            </>
+          }
+          {
+            operation === 3 &&
+            <div  ref={currRef} key={currentindex} className='queue-item-curr flex'>
+              <p className="track-name">
+              <IconContext.Provider value={{ size: "14px", className: "btn-icon" }}>
+                    <IoMdMusicalNote/>
+                </IconContext.Provider>
+                {curr[0]?.name}</p>
+              <p>0:30</p>
+             
+            </div>
+
+          }
+          {
+            operation === 3 && next.length !== 0 &&
+            <>
+              <div className="queue-list-heading">Upcoming</div>
+
+              {
+                next?.map((ele, index) => {
+                  return (<div key={index + currentindex + 1} className='queue-item flex' onClick={() => setcurrentindex(index + currentindex + 1)}>
+                    <p className="track-name">{ele?.name}</p>
+                    <p>0:30</p>
+                  </div>)
+                })
+              }
+            </>
           }
         </div>
       </div>

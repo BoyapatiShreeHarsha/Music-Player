@@ -3,20 +3,14 @@
 
 .queue-container {
     width: 100%;
-    height: 100%;
-    border-radius: 30px;
-    border-top-right-radius: 0px;
-    background-color: #3e61d2;
-    opacity: 0.6;
-    background-image: radial-gradient(#4767d055 2px, #4767d6 2px);
-    background-size: 100% 100%;
+    height: 70%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .queue {
-    height: 85%;
+    height: 90%;
     flex-direction: column;
     justify-content: space-between;
     width: 90%;
@@ -27,14 +21,17 @@
     font-weight: 700;
     color: #fff;
     text-align: left;
-    margin: 10px 0px;
+    margin: 3% 0%;
 }
 
 .queue-list {
-    height: 80%;
+    height: 98%;
     width: 100%;
     overflow-y: auto;
 }
+
+
+
 
 /* to remove the scroll bar */
 .queue-list::-webkit-scrollbar {
@@ -52,6 +49,23 @@
     transition: all 0.2s ease;
 }
 
+.queue-item-curr{
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 0px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.queue-list-heading{
+    width: 100%;
+    padding: 5px 0px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+}
+
 .queue-item:hover {
     transform: scale(0.95);
 }
@@ -66,44 +80,5 @@
 }
 
 
-    /* .queue-button{
-        display: inline-block;
-        height: 10%;
-        width: 10%;
-        float: left;
-        margin: 0 5px;
-        overflow: hidden;
-        background: #fff;
-        border-radius: 50px;
-        cursor: pointer;
-        box-shadow: 0px 10px 10px rgba(0,0,0,0.1);
-        transition: all 0.3s ease-out;
-    }
-    .queue-button:hover{
-        width: 200px;
-    }
-    .queue-button .icon{
-        display: inline-block;
-        height: 6%;
-        width: 10%;
-        text-align: center;
-        border-radius: 10%;
-        box-sizing: border-box;
-        line-height: 10%;
-        transition: all 0.3s ease-out;
-    }
-    .queue-button .icon i{
-        font-size: 24px;
-        line-height: 10%;
-        transition: all 0.3s ease-out;
-    }
-    .queue-button:hover .icon i{
-        color: #fff;
-    }
-    .queue-button span{
-        font-size: 24px;
-        font-weight: 500;
-        line-height: 60px;
-        margin-left: 2%;
-        transition: all 0.3s ease-out;
-    } */
+
+   

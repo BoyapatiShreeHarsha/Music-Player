@@ -54,7 +54,7 @@ const FavoritesAlbum = () => {
     try {
       setLoading(true);
       let response = await apiClient.get(`/v1/me/albums?offset=${offset}&limit=5`);
-      // console.log(response?.data?.items);
+      // console.log(response);
       setfav_album([...response?.data?.items]);
       setTotal(response?.data?.total);
       setLoading(false);
@@ -84,9 +84,16 @@ const FavoritesAlbum = () => {
   }
 
   let navigate=useNavigate();
-  let PlayFavAlbum = (id) => {
-    // console.log(id);
-    navigate("/player",{state:{id:id,operation:3}});
+  let PlayFavAlbum = (id,img,name,artist_arr,type,tt) => {
+
+    let artist=[];
+    artist_arr?.forEach((element)=>{
+        artist.push(element.name);
+    });
+
+    let des=`It is an ${type} by ${artist.join(", ")} with ${tt} track(s)`
+
+    navigate("/player",{state:{id:id,operation:3,img:img,name:name,des:des}});
   }
   return (
       <div className="fav_album-body">
@@ -110,7 +117,7 @@ const FavoritesAlbum = () => {
         {
           fav_album.map((ele) => {
             return (
-              <div key={ele?.album?.id} className="fav_album-card" onClick={() => PlayFavAlbum(ele?.album?.id)} >
+              <div key={ele?.album?.id} className="fav_album-card" onClick={() => PlayFavAlbum(ele?.album?.id,ele?.album.images[0]?.url,ele?.album?.name,ele?.album?.artists,ele?.album?.type,ele?.album?.total_tracks)} >
                 <img src={ele?.album.images[0]?.url} className="album-img" alt="album img" />
                 <p className="fav_album-title">{ele?.album?.name}</p>
                 <p className="fav_album-subtitle">{ele?.album?.tracks?.total} Songs</p>

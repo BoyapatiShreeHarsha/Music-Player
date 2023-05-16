@@ -54,7 +54,7 @@ const Toplist = () => {
         try {
             setLoading(true);
             let response = await apiClient.get(`/v1/browse/categories/toplists/playlists?country=IN&offset=${offset}&limit=5`);
-            // console.log(response?.data?.playlists?.items);
+            // console.log(response?.data);
             setTops([...response?.data?.playlists?.items]);
             setTotal(response?.data?.playlists?.total);
             setLoading(false);
@@ -84,8 +84,8 @@ const Toplist = () => {
     }
 
     let navigate=useNavigate();
-    let PlayToplist = (id) => {
-        navigate("/player",{state:{id:id,operation:1}});
+    let PlayToplist = (id,img,name,des) => {
+        navigate("/player",{state:{id:id,operation:1,img:img,name:name,des:des}});
     }
 
 
@@ -112,10 +112,10 @@ const Toplist = () => {
                 {
                     tops.map((top) => {
                         return (
-                            <div key={top.id} className="album-card" onClick={() => PlayToplist(top.id)} >
-                                <img src={top.images[0].url} className="album-img" alt="album img" />
-                                <p className="album-title">{top.name}</p>
-                                <p className="album-subtitle">{top.tracks.total} Songs</p>
+                            <div key={top.id} className="album-card" onClick={() => PlayToplist(top?.id,top?.images[0]?.url,top?.name,top?.description)} >
+                                <img src={top?.images[0]?.url} className="album-img" alt="album img" />
+                                <p className="album-title">{top?.name}</p>
+                                <p className="album-subtitle">{top?.tracks?.total} Songs</p>
                                 <div className="album-fade">
                                     <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
                                         <AiFillPlayCircle />

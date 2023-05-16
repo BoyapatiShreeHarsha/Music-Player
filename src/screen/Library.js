@@ -9,10 +9,10 @@ export default function Library() {
   const [playlists, setPlaylists] = useState([]);
   let getplaylist = async () => {
     try {
-      let respons2 = await apiClient.get(`/v1/me/playlists`);
+      let respons2 = await apiClient.get(`/v1/me/playlists?offset=0&limit=50`);
       // console.log(respons2);
       // console.log(respons2.data.items);
-      setPlaylists(respons2.data.items);
+      setPlaylists(respons2?.data?.items);
       
     } catch (error) {
       console.log(error);
@@ -23,18 +23,18 @@ export default function Library() {
   }, []);
 
   let navigate=useNavigate();
-  let PlayPlaylist=(id)=>{
-    navigate("/player",{state:{id:id,operation:1}});
+  let PlayPlaylist=(id,img,name,des)=>{
+    navigate("/player",{state:{id:id,operation:1,img:img,name:name,des:des}});
   }
   return (
     <div className='screen-container' >
       <div className="library-body">
         {
           playlists.map((playlist) => {
-            return (<div key={playlist.id} className="playlist-card" onClick={()=>PlayPlaylist(playlist.id)}>
-              <img src={playlist.images[0].url} className="playlist-img" alt="Playlist img" />
-              <p className="playlist-title">{playlist.name}</p>
-              <p className="playlist-subtitle">{playlist.tracks.total} Songs</p>
+            return (<div key={playlist.id} className="playlist-card" onClick={()=>PlayPlaylist(playlist?.id,playlist?.images[0]?.url,playlist?.name,playlist?.description)}>
+              <img src={playlist?.images[0]?.url} className="playlist-img" alt="Playlist img" />
+              <p className="playlist-title">{playlist?.name}</p>
+              <p className="playlist-subtitle">{playlist?.tracks?.total} Songs</p>
               <div className="playlist-fade">
                 <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
                   <AiFillPlayCircle />

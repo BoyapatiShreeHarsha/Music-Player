@@ -83,9 +83,9 @@ const Albums = () => {
   }
 
   let navigate=useNavigate();
-  let PlayAlbums = (id) => {
+  let PlayAlbums = (id,img,name,des) => {
     // console.log(id); 
-       navigate("/player",{state:{id:id,operation:1}});
+       navigate("/player",{state:{id:id,operation:1,img:img,name:name,des:des}});
   }
 
   return (
@@ -111,10 +111,10 @@ const Albums = () => {
         {
           albums.map((album) => {
             return (
-              <div key={album.id} className="album-card" onClick={() => PlayAlbums(album.id)} >
-                <img src={album.images[0].url} className="album-img" alt="album img" />
-                <p className="album-title">{album.name}</p>
-                <p className="album-subtitle">{album.tracks.total} Songs</p>
+              <div key={album.id} className="album-card" onClick={() => PlayAlbums(album?.id,album?.images[0]?.url,album?.name,album?.description)} >
+                <img src={album?.images[0]?.url} className="album-img" alt="album img" />
+                <p className="album-title">{album?.name}</p>
+                <p className="album-subtitle">{album?.tracks?.total} Songs</p>
                 <div className="album-fade">
                   <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
                     <AiFillPlayCircle />

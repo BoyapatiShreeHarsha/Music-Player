@@ -85,8 +85,14 @@ export default function Feed() {
   }
 
   let navigate=useNavigate();
-  let PlayRelease = (id) => {
-    navigate("/player",{state:{id:id,operation:3}});
+  let PlayRelease = (id,img,name,artist_arr,type,tt) => {
+    let artist=[];
+    artist_arr?.forEach((element)=>{
+        artist.push(element.name);
+    });
+
+    let des=`It is an ${type} by ${artist.join(", ")} with ${tt} track(s)`;
+    navigate("/player",{state:{id:id,operation:3,img:img,name:name,des:des }});
   }
 
   let artists_name = (arr) => {
@@ -126,11 +132,11 @@ export default function Feed() {
       <div className="release-bottom-body" style={{ display: loading ? 'none' : 'flex' }}>
         {
           releases.map((release) => {
-            return (<div key={release.id} className="release-card" onClick={() => PlayRelease(release.id)}>
-              <img src={release.images[0].url} className="release-img" alt="release img" />
-              <p className="release-title">{release.name}</p>
-              <p className="release-artist">{release.total_tracks} Song(s)</p>
-              <p className="release-artist">{artists_name(release.artists)}</p>
+            return (<div key={release.id} className="release-card" onClick={() => PlayRelease(release.id,release?.images[0]?.url,release?.name,release?.artists,release?.type,release?.total_tracks)}>
+              <img src={release?.images[0]?.url} className="release-img" alt="release img" />
+              <p className="release-title">{release?.name}</p>
+              <p className="release-artist">{release?.total_tracks} Song(s)</p>
+              <p className="release-artist">{artists_name(release?.artists)}</p>
               <div className="release-fade">
                 <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
                   <AiFillPlayCircle />

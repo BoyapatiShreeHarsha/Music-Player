@@ -1,0 +1,94 @@
+*{
+    padding: 0px 0px;
+    margin: 0px 0px;
+    box-sizing: border-box;
+}
+
+.modal1-heading{
+    width: 90%;
+    margin: 1% auto;
+    margin-bottom: 3%;
+    font-weight: bolder;
+    font-size: larger;
+    color: #fff;
+}
+
+.modal1-heading-button{
+    cursor: pointer;
+    font-size: large;
+}
+
+.modal1-heading-text{
+    width: 40%;
+    margin: 0 auto;
+}
+
+.modal1-or{
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal1-new-playlist{
+    width: 50%;
+    margin: 0 auto;
+    padding: 2% 2%;
+    border-radius: 3px;
+    color: #fff;
+    background-color: black;
+    text-align: center;
+    cursor: pointer;
+}
+
+.modal1-odd-playlist {
+    height: 75%;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 3%;
+}
+
+.modal1-queue-item {
+    margin: 1% 2.5%;
+    width: 100%;
+    
+    padding: 5px 0px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal1-queue-item:hover {
+    transform: scale(0.95);
+}
+
+.modal1-queue-text{
+    flex-direction: column;
+}
+.modal1-queue-text p{
+    margin: 0%;
+}
+
+.modal1-clamp {
+    margin: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+
+.modal1-queue-img{
+    width: 15%;
+    margin-right: 5%;
+}
+
+.modal1-queue-img img{
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 4px;
+}

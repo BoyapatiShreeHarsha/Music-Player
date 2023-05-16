@@ -11,63 +11,63 @@ const Controls = ({isPlaying, setIsPlaying, handleNext, handlePrev,currenttrack}
   let fav=false;
   const [favrioute, setFavrioute] = useState(fav);
 
-  let setheart = ()=>{
-    if(fav)
-    {
-      heartRef.current.classList.remove('fa-regular');
-      heartRef.current.classList.add('fa-solid');
-    }
-    else{
-      // console.log("Got wrong");
-      heartRef.current.classList.remove('fa-solid');
-      heartRef.current.classList.add('fa-regular');
-    }
-  }
+  // let setheart = ()=>{
+  //   if(fav)
+  //   {
+  //     heartRef.current.classList.remove('fa-regular');
+  //     heartRef.current.classList.add('fa-solid');
+  //   }
+  //   else{
+  //     // console.log("Got wrong");
+  //     heartRef.current.classList.remove('fa-solid');
+  //     heartRef.current.classList.add('fa-regular');
+  //   }
+  // }
 
-  let check = async()=>{
-    let response=await apiClient.get(`/v1/me/tracks/contains?ids=${currenttrack?.id}`);
-    // console.log(response?.data[0]);
-    fav=response?.data[0];
-    setFavrioute(response?.data[0]);
-   setheart();
-  }
+  // let check = async()=>{
+  //   let response=await apiClient.get(`/v1/me/tracks/contains?ids=${currenttrack?.id}`);
+  //   // console.log(response?.data[0]);
+  //   fav=response?.data[0];
+  //   setFavrioute(response?.data[0]);
+  //  setheart();
+  // }
 
 
-  let favtoggle=async()=>{
-    try {
-      console.log(currenttrack?.id,typeof currenttrack?.id);
-      let obj={"ids":[currenttrack?.id]};
-    if(favrioute)
-    {
-      //we need to remove it
-      let res=await apiClient.delete(`/v1/me/tracks`,{"ids":[currenttrack?.id]});
-      fav=false;
-      setFavrioute(false);
-      setheart();
-    }
-    else
-    {
-      //we need to add it 
-      let res=await apiClient.put(`/v1/me/tracks`,obj);
-      fav=true;
-      setFavrioute(true);
-      setheart();
-    }
-    } catch (error) {
-      console.log(error );
-    }
+  // let favtoggle=async()=>{
+  //   try {
+  //     console.log(currenttrack?.id,typeof currenttrack?.id);
+  //     let obj={"ids":[currenttrack?.id]};
+  //   if(favrioute)
+  //   {
+  //     //we need to remove it
+  //     let res=await apiClient.delete(`/v1/me/tracks`,{"ids":[currenttrack?.id]});
+  //     fav=false;
+  //     setFavrioute(false);
+  //     setheart();
+  //   }
+  //   else
+  //   {
+  //     //we need to add it 
+  //     let res=await apiClient.put(`/v1/me/tracks`,obj);
+  //     fav=true;
+  //     setFavrioute(true);
+  //     setheart();
+  //   }
+  //   } catch (error) {
+  //     console.log(error );
+  //   }
     
-  }
+  // }
 
 
-  useEffect(() => {
-    //checking wheater the track is fav or not
-    if(currenttrack!=={})
-    {check();
-      // console.log("done");
-    }
-    // console.log(currenttrack);
-  }, [currenttrack])
+  // useEffect(() => {
+  //   //checking wheater the track is fav or not
+  //   if(currenttrack!=={})
+  //   {check();
+  //     // console.log("done");
+  //   }
+  //   // console.log(currenttrack);
+  // }, [currenttrack])
   
   return (
     <IconContext.Provider value={{size:"35px", color:"#c4d0e3"}}>
@@ -81,7 +81,7 @@ const Controls = ({isPlaying, setIsPlaying, handleNext, handlePrev,currenttrack}
         <div className="action-btn flex" onClick={handleNext}>
           <IoPlaySkipForward />
         </div>
-        <i ref={heartRef} className=" fa-heart" onClick={favtoggle}></i>
+        {/* <i ref={heartRef} className=" fa-heart" onClick={favtoggle}></i> */}
       </div>
     </IconContext.Provider>
 
