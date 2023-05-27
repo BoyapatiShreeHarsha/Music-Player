@@ -40,44 +40,12 @@ const PlaylistCover = ({ cover, setopenmodal, }) => {
     }
 
 
-    //similarly for tracks
-
-    let checkFavonTrack=async()=>{
-        
-        let response=await apiClient.get(`/v1/me/tracks/contains?ids=${cover?.id}`);
-        // console.log(response?.data[0]);
-        setFav(response?.data[0]);
-    }
-
-    let falsetheFavonTrack=async()=>{
-        let response=await apiClient.delete(`/v1/me/tracks?ids=${cover?.id}`,{},{
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        });
-        // console.log(response);
-        setFav(false);
-    }
-
-    let truetheFavonTrack=async()=>{
-        let response=await apiClient.put(`/v1/me/tracks?ids=${cover?.id}`,{},{
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        });
-        // console.log(response);
-        setFav(true);
-    }
-
-
+   
 
     useEffect(() => {
       if(cover?.operation===3)
       {
         checkFavonAlbum();
-      }else if(cover?.operation===2)
-      {
-        checkFavonTrack();
       }
     }, [cover]) //because cover was not reaching at that movement
     
@@ -98,9 +66,10 @@ const PlaylistCover = ({ cover, setopenmodal, }) => {
                     <p>{cover?.des}</p>
                 </div>
                 <div className="flex">
+                    {cover?.operation!==2 &&
                 <div className="cover-buttons" onClick={() => {setopenmodal(true);}}>
                     <i className="fa-solid fa-plus" style={{ color: '#ffffff' ,fontSize:'larger'}}></i>
-                </div>
+                </div>}
 
                 {cover?.operation===3 && fav===false &&
                 <div className="cover-buttons" onClick={truetheFavonAlbums}>
@@ -108,15 +77,6 @@ const PlaylistCover = ({ cover, setopenmodal, }) => {
                 </div>}
                 {cover?.operation===3 && fav===true &&
                 <div className="cover-buttons" onClick={falsetheFavonAlbums}>
-                    <i className="fa-solid fa-heart" style={{ color: '#c96850',fontSize:'larger' }} ></i>
-                </div>}
-
-                {cover?.operation===2 && fav===false &&
-                <div className="cover-buttons" onClick={truetheFavonTrack}>
-                    <i className="fa-regular fa-heart" style={{ color: '#c96850',fontSize:'larger' }}></i>
-                </div>}
-                {cover?.operation===2 && fav===true &&
-                <div className="cover-buttons" onClick={falsetheFavonTrack}>
                     <i className="fa-solid fa-heart" style={{ color: '#c96850',fontSize:'larger' }} ></i>
                 </div>}
                 </div>

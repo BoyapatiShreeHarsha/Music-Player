@@ -10,6 +10,7 @@ export default function Library() {
   let getplaylist = async () => {
     try {
       let respons2 = await apiClient.get(`/v1/me/playlists?offset=0&limit=50`);
+      //need to add loader so that we can load more playlist if they are present
       // console.log(respons2);
       // console.log(respons2.data.items);
       setPlaylists(respons2?.data?.items);

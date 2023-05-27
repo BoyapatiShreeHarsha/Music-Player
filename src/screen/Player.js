@@ -3,18 +3,18 @@ import "../screen_css/player.css"
 import { useLocation, useNavigate } from 'react-router-dom'
 import apiClient from '../spotify';
 import { useState ,useEffect } from "react"
-import SongCard from '../components/SongCard'
 import Queue from '../components/Queue'
 import AudioPlayer from '../components/AudioPlayer';
 import deimg from "../components/song.jpg";
 import PlaylistCover from '../components/PlaylistCover';
 import { Modal1 } from '../components/Modal1';
+import Modal3 from '../components/Modal3';
 
 export default function Player() {
 
   let location=useLocation();
   let navigate=useNavigate();
-  if(location.state===undefined)
+  if(location.state===undefined) //here we are going to put a case for the mini-player
   {
     navigate("/library");
   }
@@ -22,18 +22,16 @@ export default function Player() {
 
   const [track, setTrack] = useState([]); //store all the songs in the playlist
   const [currenttrack, setCurrenttrack] = useState({});  //the current song to play
-  const [currentindex, setCurrentindex] = useState(0);
-  const [list, setList] = useState([]);//store the ids of element present in the track
-
-  const [t, setT] = useState({});
-  const [info, setInfo] = useState({});
-  const [img, setImg] = useState(deimg);
-  const [cover, setCover] = useState({});
-
+  const [currentindex, setCurrentindex] = useState(-1);
+  const [list, setList] = useState([]);//store the ids of element present in the track/album ->use when we press + in playlist cover
   const [openModal, setOpenModal] = useState(false);
+  const [img, setImg] = useState(deimg); //for the img on the CD
+  const [cover, setCover] = useState({}); //used to get info all types for Playlist Cover
+  const [openModal3, setOpenModal3] = useState(false);
   
 
-  let update= async ()=>{
+
+  let update= async (index)=>{
     if(location.state!==undefined)
     {
       let reasponse;
@@ -46,21 +44,21 @@ export default function Player() {
         return ele?.track?.id;
        })
        setList(arr);
-       
-       setCurrenttrack(reasponse?.data?.items[0]?.track);
+       setCurrentindex(index);
       }
       else if(location.state.operation===2)
       {
         reasponse=await apiClient.get(`v1/tracks/${location.state.id}`);
         // console.log(reasponse);
+        let t=[];
+        t.push(reasponse?.data);
+        setTrack(t);
+        // setCurrenttrack(reasponse?.data);
 
         let arr=[];
         arr.push(reasponse?.data?.id);
         setList(arr);
 
-        setT(reasponse?.data);
-        setCurrenttrack(reasponse?.data);
-        setImg(reasponse?.data?.album?.images[0]?.url);
       }
       else if(location.state.operation===3)
       {
@@ -72,50 +70,51 @@ export default function Player() {
           return ele?.id;
         })
 
-        setList(arr);
-
-        setInfo(reasponse?.data);
         setTrack(reasponse?.data?.tracks?.items);
-        setCurrenttrack(reasponse?.data?.tracks?.items[0]);
-        setImg(reasponse?.data?.images[0]?.url);
+        setList(arr);
+        setCurrentindex(index);
       }
     }
   }
 
+  // 1st one to run
   useEffect(() => {
-    update();
+    update(0);
     setCover(location.state);
   }, [location.state])  //in future we can use this to play one playlist and see another playlist
 
   useEffect(()=>{
     if(location.state.operation===1){
     setCurrenttrack(track[currentindex]?.track);
-    // console.log(currenttrack);
     setImg(track[currentindex]?.track?.album?.images[0]?.url);
     }
     else if(location.state.operation===2)
     {
       // console.log(t);
-      setCurrenttrack(t); 
+      setCurrenttrack(track[0]); 
     }
     else if(location.state.operation===3)
     {
-      setCurrenttrack(track[currentindex])
+      setCurrenttrack(track[currentindex]);
     }
 
-  },[currentindex,track,location.state.operation,t]) //here track as no effect
+  },[currentindex,track]) 
 
   // final analysis : so here the clicked playlist all tracks and currenttrack as 0 is set and current track is send to all other components and option to change the currenttrack not the entire playlist
+
   return (
     <div className='screen-container flex'>
       <div className="left-player-body">
-        <AudioPlayer currenttrack={currenttrack} currentindex={currentindex} setCurrentindex={setCurrentindex} total={track} operation={location.state.operation} img={img}/>
-        {/* <SongCard album={currenttrack?.album} operation={location.state.operation} info={info} img={img}/> */}
+        <AudioPlayer currenttrack={currenttrack} currentindex={currentindex} setCurrentindex={setCurrentindex} track={track} operation={location.state.operation} img={img} setOpenModal3={setOpenModal3} />
       </div>
       <div className="right-player-body">
-        {!openModal &&<><PlaylistCover cover={cover} setopenmodal={setOpenModal} />
+        {!openModal && !openModal3 &&<><PlaylistCover cover={cover} setopenmodal={setOpenModal} />
         <Queue track={track} setcurrentindex={setCurrentindex} operation={location.state.operation} currentindex={currentindex} /></>}
-        {openModal && <Modal1 setopenmodal={setOpenModal} list={list} />}
+
+        {openModal && !openModal3 &&<Modal1 setopenmodal={setOpenModal} list={list} />}
+
+        {openModal3 && !openModal && <Modal3 trackid={cover?.id} currenttrackid={currenttrack?.id} operation={cover?.operation} setOpenModal3={setOpenModal3} update={update} currentindex={currentindex} currenttrack={currenttrack}/>}
+
       </div>
     </div>
   )

@@ -1,0 +1,38 @@
+*{
+    padding: 0px 0px;
+    margin: 0px 0px;
+    box-sizing: border-box;
+}
+
+.modal-3{
+    width: 90%;
+    height: 70%;
+    flex-direction: column;
+    color: white;
+    margin-left: 3%;
+    margin-top: 3%;
+    font-weight: bolder;
+    font-size: larger;
+}
+
+.modal3-body{
+    margin-top: 3%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal3-button{
+    width: 50%;
+    margin: 3% auto;
+    padding: 2% 2%;
+    border-radius: 6px;
+    color: #fff;
+    background-color: black;
+    text-align: center;
+    cursor: pointer;
+}
+
+.modal3-heading-button{
+    cursor: pointer;
+}
