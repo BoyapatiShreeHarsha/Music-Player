@@ -43,6 +43,9 @@ added the "add playlist/album/track to a playlist"
 added the "save track/album"
 improved the queue by dividing into the previous,curr,upcoming and added scroll into the current track
 
-### phase-2-3
-going to do optimisation by friday
+### phase-2-4
+optimised the code
+added the modal-3
+
+going to implement the redux for the hover-player by monday
 
