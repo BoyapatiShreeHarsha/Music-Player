@@ -3,9 +3,14 @@ import { useState,useRef, useEffect } from "react"
 import "../components_css/queue.css"
 import { IoMdMusicalNote } from 'react-icons/io';
 import { IconContext } from 'react-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { dataActions } from '../store/data-slice'
 
 
-function Queue({ track, setcurrentindex, operation, currentindex }) {
+function Queue({track, setcurrentindex, operation, currentindex }) {
+
+  let dispatch = useDispatch();
+  let data = useSelector(state => state.data);
 
   const [prev, setPrev] = useState([]);
   const [next, setNext] = useState([]);
@@ -51,6 +56,20 @@ function Queue({ track, setcurrentindex, operation, currentindex }) {
     }
   }, [currentindex, track]);
 
+  let handlePlay=(index)=>{
+    if(data?.show===false && data?.isPlaying===true)
+    {
+      
+      // console.log("inside the queue setting the index",currentindex);
+      dispatch(dataActions.setCurrentindex(index));
+    }
+    else
+    {
+      // console.log("going to else part");
+      setcurrentindex(index);
+    }
+  }
+
   return (
     <div className="queue-container flex">
       <div className="queue flex">
@@ -61,7 +80,7 @@ function Queue({ track, setcurrentindex, operation, currentindex }) {
               <div className="queue-list-heading">Previous</div>
               {
                 prev?.map((ele, index) => {
-                  return (<div key={index} className='queue-item flex' onClick={() => setcurrentindex(index)}>
+                  return (<div key={index} className='queue-item flex' onClick={()=>handlePlay(index)}>
                     <p className="track-name">{ele?.track?.name}</p>
                     <p>0:30</p>
                   </div>)
@@ -90,7 +109,7 @@ function Queue({ track, setcurrentindex, operation, currentindex }) {
 
               {
                 next?.map((ele, index) => {
-                  return (<div key={index + currentindex + 1} className='queue-item flex' onClick={() => setcurrentindex(index + currentindex + 1)}>
+                  return (<div key={index + currentindex + 1} className='queue-item flex' onClick={() => handlePlay(index + currentindex + 1)}>
                     <p className="track-name">{ele?.track?.name}</p>
                     <p>0:30</p>
                     
@@ -107,7 +126,7 @@ function Queue({ track, setcurrentindex, operation, currentindex }) {
 
               {
                 prev?.map((ele, index) => {
-                  return (<div key={index} className='queue-item flex' onClick={() => setcurrentindex(index)}>
+                  return (<div key={index} className='queue-item flex' onClick={() => handlePlay(index)}>
                     <p className="track-name">{ele?.name}</p>
                     <p>0:30</p>
                   </div>)
@@ -136,7 +155,7 @@ function Queue({ track, setcurrentindex, operation, currentindex }) {
 
               {
                 next?.map((ele, index) => {
-                  return (<div key={index + currentindex + 1} className='queue-item flex' onClick={() => setcurrentindex(index + currentindex + 1)}>
+                  return (<div key={index + currentindex + 1} className='queue-item flex' onClick={() => handlePlay(index + currentindex + 1)}>
                     <p className="track-name">{ele?.name}</p>
                     <p>0:30</p>
                   </div>)
