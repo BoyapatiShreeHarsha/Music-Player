@@ -43,5 +43,9 @@ improved the queue by dividing into the previous,curr,upcoming and added scroll 
 optimised the code
 added the modal-3
 
-going to implement the redux for the hover-player by monday
+### phase-2-5
+added a MINIPLAYER, so that we can hear music in background which we search for another songs
+used REDUX for this.
+
+going to add lyrics component by tonight.
 
