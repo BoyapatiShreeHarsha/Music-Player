@@ -47,5 +47,12 @@ added the modal-3
 added a MINIPLAYER, so that we can hear music in background which we search for another songs
 used REDUX for this.
 
-going to add lyrics component by tonight.
+
+### phase-2-6
+added the errorHandling
+added the Slider
+removed some bugs
+
+### phase-2-7
+Deploy
 
