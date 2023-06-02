@@ -10,17 +10,19 @@ import PlaylistCover from '../components/PlaylistCover';
 import { Modal1 } from '../components/Modal1';
 import Modal3 from '../components/Modal3';
 import { useSelector } from 'react-redux';
+import Lyrics from '../components/Lyrics';
 
 export default function Player() {
 
   let infoR=useSelector(state=>state.info);
+  let modal=useSelector(state=>state.modal);
   let location=useLocation();
   let navigate=useNavigate();
-  if(location.state===undefined) //here we are going to put a case for the mini-player
+  
+  if(location.state===null) //here we are going to put a case for the mini-player
   {
     if(infoR.id!=="")
     {
-      console.log("entered to infoR");
       location.state=infoR;
     }
     else
@@ -28,16 +30,14 @@ export default function Player() {
   }
 
 
+
   const [track, setTrack] = useState([]); //store all the songs in the playlist
   const [currenttrack, setCurrenttrack] = useState({});  //the current song to play
   const [currentindex, setCurrentindex] = useState(0);
   const [list, setList] = useState([]);//store the ids of element present in the track/album ->use when we press + in playlist cover
-  const [openModal, setOpenModal] = useState(false);
   const [img, setImg] = useState(deimg); //for the img on the CD
   const [cover, setCover] = useState({}); //used to get info all types for Playlist Cover
-  const [openModal3, setOpenModal3] = useState(false);
   
-
 
   let update= async (index)=>{
     if(location.state!==undefined)
@@ -46,6 +46,7 @@ export default function Player() {
       if(location?.state?.operation===1){
        reasponse = await apiClient.get(`v1/playlists/${location.state.id}/tracks`);
       //  console.log(reasponse?.data?.items);
+      
        setTrack(reasponse?.data?.items);
        
        let arr=reasponse?.data?.items.map((ele)=>{
@@ -67,7 +68,7 @@ export default function Player() {
         let arr=[];
         arr.push(reasponse?.data?.id);
         setList(arr);
-
+        setImg(location.state.img);
       }
       else if(location?.state?.operation===3)
       {
@@ -82,6 +83,7 @@ export default function Player() {
         setTrack(reasponse?.data?.tracks?.items);
         setList(arr);
         setCurrentindex(index);
+        setImg(location.state.img);
       }
     }
   }
@@ -115,15 +117,24 @@ export default function Player() {
   return (
     <div className='screen-container flex'>
       <div className="left-player-body">
-        <AudioPlayer info={location?.state} currenttrack={currenttrack} currentindex={currentindex} setCurrentindex={setCurrentindex} track={track}  img={img} setOpenModal3={setOpenModal3} />
+        <AudioPlayer info={location?.state} currenttrack={currenttrack} currentindex={currentindex} setCurrentindex={setCurrentindex} track={track}  img={img}/>
+        {/* <Lyrics currenttrack={currenttrack} info={location?.state}/> */}
       </div>
       <div className="right-player-body">
-        {!openModal && !openModal3 &&<><PlaylistCover cover={cover} setopenmodal={setOpenModal} />
-        <Queue track={track} setcurrentindex={setCurrentindex} operation={location?.state?.operation} currentindex={currentindex} /></>}
+        {!modal?.modal1 && !modal?.modal3 &&
+        <>
+        <PlaylistCover cover={cover}/>
+        <Queue track={track} setcurrentindex={setCurrentindex} operation={location?.state?.operation} currentindex={currentindex} />
+        </>
+        }
 
-        {openModal && !openModal3 &&<Modal1 setopenmodal={setOpenModal} list={list} />}
+        {modal?.modal1 && 
+        <Modal1 list={list} />
+        }
 
-        {openModal3 && !openModal && <Modal3 trackid={cover?.id} currenttrackid={currenttrack?.id} operation={cover?.operation} setOpenModal3={setOpenModal3} update={update} currentindex={currentindex} currenttrack={currenttrack}/>}
+        {modal?.modal3 && !modal?.modal1 && 
+        <Modal3 trackid={cover?.id} currenttrackid={currenttrack?.id} operation={cover?.operation} update={update} currentindex={currentindex} currenttrack={currenttrack}/>
+        }
 
       </div>
     </div>

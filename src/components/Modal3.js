@@ -3,8 +3,10 @@ import { useState, useEffect } from "react"
 import apiClient from '../spotify'
 import { Modal1 } from './Modal1';
 import '../components_css/Modal3.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { modalActions } from '../store/modal-slice';
 
-const Modal3 = ({ trackid, currenttrackid, operation, setOpenModal3, update, currentindex, currenttrack }) => {
+const Modal3 = ({ trackid, currenttrackid, operation,  update, currentindex, currenttrack }) => {
 
     // console.log(currenttrack);
     let a = currenttrack?.uri;
@@ -13,9 +15,11 @@ const Modal3 = ({ trackid, currenttrackid, operation, setOpenModal3, update, cur
     const [display, setDisplay] = useState(false);
     const [snapshot, setSnapshot] = useState(undefined);
 
-    let closemodal = () => {
-        setOpenModal3(false);
+    let modal=useSelector(state=>state.modal);
+    let dispatch=useDispatch();
 
+    let closemodal = () => {
+        dispatch(modalActions.setModal3(false));
     }
 
 
@@ -60,7 +64,7 @@ const Modal3 = ({ trackid, currenttrackid, operation, setOpenModal3, update, cur
     let addTheTrack = () => {
         let arr = [currenttrackid];
         setList(arr);
-        setOpenModal(true);
+        dispatch(modalActions.setModal1(true));
     }
 
     useEffect(() => {
@@ -75,7 +79,7 @@ const Modal3 = ({ trackid, currenttrackid, operation, setOpenModal3, update, cur
     return (
         <>
             {
-                !openModal && <div className="modal-3 flex">
+                !modal?.modal1 && <div className="modal-3 flex">
                     <div className="modal3-heading-button" onClick={closemodal}>&times;</div>
                     <div className="modal3-body flex">
                         <div className="modal3-button" onClick={() => addTheTrack()}>Add to playlist</div>
@@ -84,7 +88,7 @@ const Modal3 = ({ trackid, currenttrackid, operation, setOpenModal3, update, cur
                 </div>
             }
             {
-                openModal && <Modal1 setopenmodal={setOpenModal} list={list} />
+                modal?.modal1 && <Modal1 list={list} />
             }
         </>
 

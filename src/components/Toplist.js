@@ -6,12 +6,17 @@ import Loader from './Loder';
 import "../components_css/Toplist.css"
 import "../components_css/album.css"
 import { useNavigate} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { errorActions } from '../store/error-slice';
+import ErrorMsg from './ErrorMsg';
 
 const Toplist = () => {
     const [tops, setTops] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const [number, setNumber] = useState(0)
+    const [e, setE] = useState(false);
+    let dispatch=useDispatch();
     //setting the variables for the buttons
 
     let total = 0;
@@ -56,10 +61,19 @@ const Toplist = () => {
             let response = await apiClient.get(`/v1/browse/categories/toplists/playlists?country=IN&offset=${offset}&limit=5`);
             // console.log(response?.data);
             setTops([...response?.data?.playlists?.items]);
+            if(response?.data?.playlists?.items===0)
+            {
+                setE(true);
+                dispatch(errorActions.setCode(2));
+                dispatch(errorActions.setMsg("Its seems there are no more Top songs"));
+            }
             setTotal(response?.data?.playlists?.total);
             setLoading(false);
             checkInitial();
         } catch (error) {
+            setE(true);
+            dispatch(errorActions.setCode(3));
+            dispatch(errorActions.setMsg("Something wrong with the server"));
             console.log(error);
         }
     }
@@ -106,8 +120,8 @@ const Toplist = () => {
                 </div>
             </div>
             <hr style={{ color: "white", border: "1" }} />
-            {loading && <Loader />}
-
+            {loading &&!e && <Loader />}
+            {!e && !loading &&
             <div className="albums-bottom-body" style={{ display: loading ? 'none' : 'flex' }}>
                 {
                     tops.map((top) => {
@@ -125,7 +139,11 @@ const Toplist = () => {
                         )
                     })
                 }
-            </div>
+            </div>}
+
+            {
+                e && <ErrorMsg/>
+            }
         </div>
     )
 }

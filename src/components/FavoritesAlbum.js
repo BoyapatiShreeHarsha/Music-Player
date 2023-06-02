@@ -4,17 +4,23 @@ import { IconContext } from 'react-icons';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import Loader from './Loder';
 import "../components_css/Fav_album.css"
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { errorActions } from '../store/error-slice';
+import ErrorMsg from './ErrorMsg';
 
 const FavoritesAlbum = () => {
-    const [fav_album, setfav_album] = useState([]);
+  const [fav_album, setfav_album] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [number, setNumber] = useState(0)
   //setting the variables for the buttons
- 
+  const [e, setE] = useState(false);
+
+  let dispatch = useDispatch();
+
   let total = 0;
-  let offset=number;
+  let offset = number;
   let setTotal = (num) => {
     total = num;
     // console.log(total);
@@ -43,8 +49,7 @@ const FavoritesAlbum = () => {
     if (offset >= total - 5) {
       document.getElementById('fav_album-next').classList.add('fav_album-disabled');
     }
-    else
-    {
+    else {
       document.getElementById('fav_album-next').classList.remove('fav_album-disabled');
     }
 
@@ -56,10 +61,18 @@ const FavoritesAlbum = () => {
       let response = await apiClient.get(`/v1/me/albums?offset=${offset}&limit=5`);
       // console.log(response);
       setfav_album([...response?.data?.items]);
+      if (response?.data?.items===0) {
+        setE(true);
+        dispatch(errorActions.setCode(2));
+        dispatch(errorActions.setMsg("It seems that there are no more albums"));
+      }
       setTotal(response?.data?.total);
       setLoading(false);
       checkInitial();
     } catch (error) {
+      setE(true);
+      dispatch(errorActions.setCode(3));
+      dispatch(errorActions.setMsg("Something wrong with server"));
       console.log(error);
     }
   }
@@ -79,25 +92,25 @@ const FavoritesAlbum = () => {
 
   let handleNext = async () => {
     setOffset(+5);
-    setNumber(offset);  
+    setNumber(offset);
     fav_update_album();
   }
 
-  let navigate=useNavigate();
-  let PlayFavAlbum = (id,img,name,artist_arr,type,tt) => {
+  let navigate = useNavigate();
+  let PlayFavAlbum = (id, img, name, artist_arr, type, tt) => {
 
-    let artist=[];
-    artist_arr?.forEach((element)=>{
-        artist.push(element.name);
+    let artist = [];
+    artist_arr?.forEach((element) => {
+      artist.push(element.name);
     });
 
-    let des=`It is an ${type} by ${artist.join(", ")} with ${tt} track(s)`
+    let des = `It is an ${type} by ${artist.join(", ")} with ${tt} track(s)`
 
-    navigate("/player",{state:{id:id,operation:3,img:img,name:name,des:des}});
+    navigate("/player", { state: { id: id, operation: 3, img: img, name: name, des: des } });
   }
   return (
-      <div className="fav_album-body">
-        <div className="fav_album-top-body">
+    <div className="fav_album-body">
+      <div className="fav_album-top-body">
         <div className="fav_album-header">
           <div className="main-header">Fav_Albums</div>
         </div>
@@ -111,26 +124,30 @@ const FavoritesAlbum = () => {
         </div>
       </div>
       <hr />
-      {loading && <Loader />}
-
-      <div className="fav_album-bottom-body" style={{ display: loading ? 'none' : 'flex' }}>
-        {
-          fav_album.map((ele) => {
-            return (
-              <div key={ele?.album?.id} className="fav_album-card" onClick={() => PlayFavAlbum(ele?.album?.id,ele?.album.images[0]?.url,ele?.album?.name,ele?.album?.artists,ele?.album?.type,ele?.album?.total_tracks)} >
-                <img src={ele?.album.images[0]?.url} className="album-img" alt="album img" />
-                <p className="fav_album-title">{ele?.album?.name}</p>
-                <p className="fav_album-subtitle">{ele?.album?.tracks?.total} Songs</p>
-                <div className="fav_album-fade">
-                  <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
-                    <AiFillPlayCircle />
-                  </IconContext.Provider>
+      {loading && !e && <Loader />}
+      {!loading && !e &&
+        <div className="fav_album-bottom-body" style={{ display: loading ? 'none' : 'flex' }}>
+          {
+            fav_album.map((ele) => {
+              return (
+                <div key={ele?.album?.id} className="fav_album-card" onClick={() => PlayFavAlbum(ele?.album?.id, ele?.album.images[0]?.url, ele?.album?.name, ele?.album?.artists, ele?.album?.type, ele?.album?.total_tracks)} >
+                  <img src={ele?.album.images[0]?.url} className="album-img" alt="album img" />
+                  <p className="fav_album-title">{ele?.album?.name}</p>
+                  <p className="fav_album-subtitle">{ele?.album?.tracks?.total} Songs</p>
+                  <div className="fav_album-fade">
+                    <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
+                      <AiFillPlayCircle />
+                    </IconContext.Provider>
+                  </div>
                 </div>
-              </div>
-            )
-          })
-        }
-      </div>
+              )
+            })
+          }
+        </div>}
+
+      {
+        e && <ErrorMsg />
+      }
 
     </div>
   )

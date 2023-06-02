@@ -1,0 +1,14 @@
+.error-page{
+    width: 80%;
+    height: 100%;
+    color: #c4d0e37c;
+    font-size: large;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.error-icon{
+    padding: 5% 0%;
+}
+
+

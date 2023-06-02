@@ -3,14 +3,18 @@ import { useState, useEffect } from "react"
 import apiClient from '../spotify'
 import '../components_css/Modal1.css'
 import Modal2 from './Modal2';
+import { useDispatch, useSelector } from 'react-redux';
+import { modalActions } from '../store/modal-slice';
 
 
-export const Modal1 = ({ setopenmodal, list }) => {
+export const Modal1 = ({ list }) => {
     // console.log(list[0]);
     const [playlists, setPlaylists] = useState([]);
     const [uri, setUri] = useState([]);
-    const [openModal1, setOpenModal1] = useState(false);
+    const [openModal2, setOpenModal2] = useState(false);
     const [directopenModal, setDirectopenModal] = useState(false);
+    let dispatch=useDispatch();
+    let modal=useSelector(state=>state.modal1);
 
     let getplaylist = async () => {
         try {
@@ -44,7 +48,7 @@ export const Modal1 = ({ setopenmodal, list }) => {
 
     useEffect(()=>{
         if(directopenModal===true)
-        setopenmodal(false);
+        dispatch(modalActions.setModal1(false));
     })
 
 
@@ -68,7 +72,7 @@ export const Modal1 = ({ setopenmodal, list }) => {
 
             // console.log(respons);
             setDirectopenModal(false);
-            setopenmodal(false);
+            dispatch(modalActions.setModal1(false));
         } catch (error) {
             console.log(error);
         }
@@ -77,14 +81,13 @@ export const Modal1 = ({ setopenmodal, list }) => {
    
     return (
         <>
-            {!openModal1 && <>
+            {!openModal2 &&  <>
             <div className="modal1-heading flex">
-                <div className='modal1-heading-button' onClick={() => { setopenmodal(false) }}>&times;</div>
+                <div className='modal1-heading-button' onClick={() => { dispatch(modalActions.setModal1(false)); }}>&times;</div>
                 <div className='modal1-heading-text'>Add to Playlist</div>
             </div>
             <div className="modal1-new-playlist" onClick={()=>{
-                // console.log("clicked");
-                setOpenModal1(true) }}>
+                setOpenModal2(true) }}>
                 New Playlist
             </div>
             <div className="modal1-or flex">
@@ -107,7 +110,7 @@ export const Modal1 = ({ setopenmodal, list }) => {
                     })
                 }
             </div></>}
-            {openModal1 && <Modal2 data={uri} setOpenModal1={setOpenModal1} setDirectopenModal={setDirectopenModal}/>}
+            {openModal2 && <Modal2 data={uri} setOpenModal2={setOpenModal2} setDirectopenModal={setDirectopenModal}/>}
 
         </>
     )

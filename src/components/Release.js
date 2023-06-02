@@ -4,19 +4,24 @@ import { IconContext } from 'react-icons';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import '../components_css/release.css'
 import Loader from './Loder';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { errorActions } from '../store/error-slice';
+import ErrorMsg from './ErrorMsg';
 
 
 export default function Feed() {
   const [releases, setReleases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [number, setNumber] = useState(0);
+  const [e, setE] = useState(false);
+  let dispatch = useDispatch();
 
 
   //setting the variables for the buttons
- 
+
   let total = 0;
-  let offset=number;
+  let offset = number;
   let setTotal = (num) => {
     total = num;
   }
@@ -44,8 +49,7 @@ export default function Feed() {
     if (offset >= total - 5) {
       document.getElementById("release-next").classList.add('release-disabled');
     }
-    else
-    {
+    else {
       document.getElementById('release-next').classList.remove('release-disabled');
     }
 
@@ -57,18 +61,25 @@ export default function Feed() {
       let respons2 = await apiClient.get(`/v1/browse/new-releases?country=IN&offset=${offset}&limit=5`)
       // console.log(respons2);
       setReleases([...respons2.data?.albums?.items]);
+      if (respons2?.data?.albums?.items === 0) {
+        setE(true);
+        dispatch(errorActions.setCode(2));
+        dispatch(errorActions.setMsg("Its seems there are no recent songs anymore"));
+      }
       setTotal(respons2.data?.albums?.total);
       setLoading(false);
       checkInitial();
     } catch (error) {
+      setE(true);
+      dispatch(errorActions.setCode(3));
+      dispatch(errorActions.setMsg("Something wrong with server"));
       console.log(error);
     }
   }
   useEffect(() => {
-    if(flag)
-    {
+    if (flag) {
       update_release();
-      flag=false;
+      flag = false;
     }
   }, []);
 
@@ -78,21 +89,21 @@ export default function Feed() {
     update_release();
   }
 
-   let handleNext = async () => {
+  let handleNext = async () => {
     setOffset(+5);
     setNumber(offset);
     update_release();
   }
 
-  let navigate=useNavigate();
-  let PlayRelease = (id,img,name,artist_arr,type,tt) => {
-    let artist=[];
-    artist_arr?.forEach((element)=>{
-        artist.push(element.name);
+  let navigate = useNavigate();
+  let PlayRelease = (id, img, name, artist_arr, type, tt) => {
+    let artist = [];
+    artist_arr?.forEach((element) => {
+      artist.push(element.name);
     });
 
-    let des=`It is an ${type} by ${artist.join(", ")} with ${tt} track(s)`;
-    navigate("/player",{state:{id:id,operation:3,img:img,name:name,des:des }});
+    let des = `It is an ${type} by ${artist.join(", ")} with ${tt} track(s)`;
+    navigate("/player", { state: { id: id, operation: 3, img: img, name: name, des: des } });
   }
 
   let artists_name = (arr) => {
@@ -126,26 +137,33 @@ export default function Feed() {
           </span>
         </div>
       </div>
-      <hr  style={{color:"white",border:"1"}}/>
+      <hr style={{ color: "white", border: "1" }} />
 
-      {loading && <Loader />}
-      <div className="release-bottom-body" style={{ display: loading ? 'none' : 'flex' }}>
-        {
-          releases.map((release) => {
-            return (<div key={release.id} className="release-card" onClick={() => PlayRelease(release.id,release?.images[0]?.url,release?.name,release?.artists,release?.type,release?.total_tracks)}>
-              <img src={release?.images[0]?.url} className="release-img" alt="release img" />
-              <p className="release-title">{release?.name}</p>
-              <p className="release-artist">{release?.total_tracks} Song(s)</p>
-              <p className="release-artist">{artists_name(release?.artists)}</p>
-              <div className="release-fade">
-                <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
-                  <AiFillPlayCircle />
-                </IconContext.Provider>
-              </div>
-            </div>)
-          })
-        }
-      </div>
+      {loading &&!e && <Loader />}
+      {!loading &&!e &&
+        <div className="release-bottom-body" style={{ display: loading ? 'none' : 'flex' }}>
+          {
+            releases.map((release) => {
+              return (<div key={release.id} className="release-card" onClick={() => PlayRelease(release.id, release?.images[0]?.url, release?.name, release?.artists, release?.type, release?.total_tracks)}>
+                <img src={release?.images[0]?.url} className="release-img" alt="release img" />
+                <p className="release-title">{release?.name}</p>
+                <p className="release-artist">{release?.total_tracks} Song(s)</p>
+                <p className="release-artist">{artists_name(release?.artists)}</p>
+                <div className="release-fade">
+                  <IconContext.Provider value={{ size: "50px", color: "#E99D72" }}>
+                    <AiFillPlayCircle />
+                  </IconContext.Provider>
+                </div>
+              </div>)
+            })
+          }
+        </div>
+      }
+
+      {
+        e &&
+        <ErrorMsg />
+      }
     </div>
   )
 }

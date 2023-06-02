@@ -2,12 +2,16 @@ import React from 'react'
 import { useState ,useEffect} from "react"
 import '../components_css/PlaylistCover.css'
 import apiClient from '../spotify';
+import { useDispatch, useSelector } from 'react-redux';
+import { modalActions } from '../store/modal-slice';
 
-const PlaylistCover = ({ cover, setopenmodal, }) => {
+const PlaylistCover = ({ cover }) => {
     // console.log(cover?.id);
     // console.log(id,operation,img,name,des);
     // console.log(cover);
     const [fav, setFav] = useState(false);
+    let modal=useSelector(state=>state.modal);
+    let dispatch=useDispatch();
 
     //first we will check if the given album is allready fav
 
@@ -67,7 +71,7 @@ const PlaylistCover = ({ cover, setopenmodal, }) => {
                 </div>
                 <div className="flex">
                     {cover?.operation!==2 &&
-                <div className="cover-buttons" onClick={() => {setopenmodal(true);}}>
+                <div className="cover-buttons" onClick={() => {dispatch(modalActions.setModal1(true))}}>
                     <i className="fa-solid fa-plus" style={{ color: '#ffffff' ,fontSize:'larger'}}></i>
                 </div>}
 

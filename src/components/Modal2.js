@@ -3,7 +3,7 @@ import { useState } from "react"
 import apiClient from '../spotify';
 import '../components_css/Modal2.css'
 
-const Modal2 = ({ data, setOpenModal1,setDirectopenModal }) => {
+const Modal2 = ({ data, setOpenModal2,setDirectopenModal }) => {
 
     const [credentials, setCredentials] = useState({ name: "", description: "" });
     const [pub, setPub] = useState(false)
@@ -67,7 +67,7 @@ const Modal2 = ({ data, setOpenModal1,setDirectopenModal }) => {
     return (
         <div>
             <div className="modal2-heading ">
-                <div className='modal2-heading-button' onClick={() => { setOpenModal1(false) }}>&larr;</div>
+                <div className='modal2-heading-button' onClick={() => { setOpenModal2(false) }}>&larr;</div>
                 <div className='modal2-heading-text'>Create a Playlist</div>
 
             </div>
@@ -100,7 +100,7 @@ const Modal2 = ({ data, setOpenModal1,setDirectopenModal }) => {
                 </div>
                 <div className="modal2-btn">
                 <button type="submit" className="modal2-submit" onClick={() => { setDirectopenModal(true) }}>Create</button>
-                <button type="reset" className="modal2-exit" onClick={() => { setOpenModal1(false) }}>Cancel</button>
+                <button type="reset" className="modal2-exit" onClick={() => { setOpenModal2(false) }}>Cancel</button>
                 </div>
             </form>
 

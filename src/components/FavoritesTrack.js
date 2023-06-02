@@ -4,7 +4,10 @@ import { IconContext } from 'react-icons';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import '../components_css/FavoritesTrack.css'
 import Loader from './Loder';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import ErrorMsg from './ErrorMsg';
+import { useDispatch } from 'react-redux';
+import { errorActions } from '../store/error-slice';
 
 const FavoritesTrack = () => {
 
@@ -12,9 +15,11 @@ const FavoritesTrack = () => {
   const [loading, setLoading] = useState(false);
   const [number, setNumber] = useState(0)
   //setting the variables for the buttons
- 
+  const [e, setE] = useState(false);
+  let dispatch=useDispatch();
+
   let total = 0;
-  let offset=number;
+  let offset = number;
   let setTotal = (num) => {
     total = num;
     // console.log(total);
@@ -43,8 +48,7 @@ const FavoritesTrack = () => {
     if (offset >= total - 5) {
       document.getElementById("fav-tracks-next").classList.add('fav-tracks-disabled');
     }
-    else
-    {
+    else {
       document.getElementById('fav-tracks-next').classList.remove('fav-tracks-disabled');
     }
 
@@ -58,10 +62,18 @@ const FavoritesTrack = () => {
       let response = await apiClient.get(`/v1/me/tracks?country=IN&offset=${offset}&limit=5`);
       // console.log(response);
       setTotal(response?.data?.total);
+      if (response?.data?.total===0) {
+        setE(true);
+        dispatch(errorActions.setCode(2));
+        dispatch(errorActions.setMsg("It seems there are no more songs"));
+      }
       setFav_tracks([...response?.data?.items]);
       setLoading(false);
       checkInitial();
     } catch (error) {
+      setE(true);
+      dispatch(errorActions.setCode(3));
+      dispatch(errorActions.setMsg("Something wrong with server"));
       console.log(error);
     }
   }
@@ -81,20 +93,20 @@ const FavoritesTrack = () => {
 
   let handleNext = async () => {
     setOffset(+5);
-    setNumber(offset);  
+    setNumber(offset);
     update_fav();
 
   }
 
-  let navigate=useNavigate();
-  let FavPlayTrack = (id,img,name,artist_arr,type) => {
-    let artist=[];
-    artist_arr?.forEach((element)=>{
-        artist.push(element.name);
+  let navigate = useNavigate();
+  let FavPlayTrack = (id, img, name, artist_arr, type) => {
+    let artist = [];
+    artist_arr?.forEach((element) => {
+      artist.push(element.name);
     });
 
-    let des=`It is a ${type} by ${artist.join(", ")}`
-    navigate("/player",{state:{id:id,operation:2,img:img,name:name,des:des}});
+    let des = `It is a ${type} by ${artist.join(", ")}`
+    navigate("/player", { state: { id: id, operation: 2, img: img, name: name, des: des } });
   }
 
   let artists_name = (arr) => {
@@ -127,11 +139,11 @@ const FavoritesTrack = () => {
       </div>
       <hr />
 
-      {loading && <Loader />}
-      {!loading && (<div className="fav-tracks-bottom-body">
+      {loading && !e && <Loader />}
+      {!loading && !e && (<div className="fav-tracks-bottom-body">
         {
           fav_tracks.map((ele) => {
-            return (<div key={ele.track?.id} className='fav-tracks-card' onClick={() => FavPlayTrack(ele.track?.id,ele.track?.album?.images[0]?.url,ele.track?.album?.name,ele.track?.album?.artists,ele.track?.type)}>
+            return (<div key={ele.track?.id} className='fav-tracks-card' onClick={() => FavPlayTrack(ele.track?.id, ele.track?.album?.images[0]?.url, ele.track?.album?.name, ele.track?.album?.artists, ele.track?.type)}>
               <img src={ele.track?.album?.images[0]?.url} className="fav-tracks-img" alt="fav-tracks img" />
               <p className="fav-tracks-title">{ele.track?.album?.name}</p>
               <p className="fav-tracks-artist">{artists_name(ele.track?.album?.artists)}</p>
@@ -145,6 +157,9 @@ const FavoritesTrack = () => {
           })
         }
       </div>)}
+      {
+        e && <ErrorMsg />
+      }
 
     </div>
   )

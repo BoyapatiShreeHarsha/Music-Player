@@ -73,6 +73,11 @@
 
 .mini-center-top{
     justify-content: space-evenly;
+    align-items: baseline;
+    margin-bottom: 2%;
+}
+.mini-center-top>p{
+    margin: 0 2%;
 }
 
 .controls-wrapper-mini{

@@ -4,12 +4,15 @@ import { IconContext } from 'react-icons'
 import { FaPause } from "react-icons/fa"
 import { IoPlaySkipBack, IoPlaySkipForward, IoPlay } from "react-icons/io5"
 import apiClient from '../spotify'
+import { useDispatch, useSelector } from 'react-redux'
+import { modalActions } from '../store/modal-slice'
 
-const Controls = ({ isPlaying, setIsPlaying, handleNext, handlePrev, currenttrack, setOpenModal3 }) => {
+const Controls = ({ isPlaying, setIsPlaying, handleNext, handlePrev, currenttrack}) => {
   //data comes here every sec that why for fav checkFav is there
   
   const [fav, setFav] = useState(false);
-
+  let modal=useSelector(state=>state.modal);
+  let dispatch=useDispatch();
 
   let checkFavonTrack = async () => {
     if (currenttrack?.id) {
@@ -60,11 +63,13 @@ const Controls = ({ isPlaying, setIsPlaying, handleNext, handlePrev, currenttrac
             </div>
           </div>
         </IconContext.Provider>
-        <div className="control-icons">
-          <i className="fa-solid fa-ellipsis-vertical" style={{ color: "white" }} onClick={() => {
-            setOpenModal3(true);
+        <div className="control-icons" >
+          { !modal?.modal1 &&
+          <i className="fa-solid fa-ellipsis-vertical" style={{ color: "white",cursor:"pointer" }} onClick={() => {
+            dispatch(modalActions.setModal3(true));
             setIsPlaying(false);
-          }}></i>
+          }} ></i>
+        }
 
           {fav === false &&
             <div className="cover-buttons" onClick={truetheFavonTrack} style={{ marginLeft: "5px" }}>

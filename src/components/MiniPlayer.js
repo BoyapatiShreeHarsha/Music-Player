@@ -6,15 +6,21 @@ import { FaPause } from "react-icons/fa"
 import { IoPlaySkipBack, IoPlaySkipForward, IoPlay } from "react-icons/io5"
 import { dataActions } from '../store/data-slice'
 import { useNavigate } from 'react-router-dom'
+import Slider from './Slider'
+import { audioActions } from '../store/audio-slice'
+import { errorActions } from '../store/error-slice'
+import ErrorMsg3 from './ErrorMsg3'
 
 const HoverPlayer = () => {
   const data = useSelector(state => state.data);
-  const info=useSelector(state=>state.info);
-  // console.log(data.show);
+  const info = useSelector(state => state.info);
+  const AudioR = useSelector(state => state.audio);
+  let e = useSelector(state => state.error);
+
+  // console.log("data",data.trackProgess);
   let dispatch = useDispatch();
 
-  if(window.location.pathname!=="/player")
-  {
+  if (window.location.pathname !== "/player") {
     // console.log(window.location.pathname);
     dispatch(dataActions.setShow("#"));
   }
@@ -32,9 +38,16 @@ const HoverPlayer = () => {
     aS = data?.track[data?.currentindex]?.preview_url;
   }
 
+  if (aS === null) {
+    dispatch(errorActions.setShow(true));
+  }
+  else {
+    dispatch(errorActions.setShow(false));
+  }
+
   let audioSrc = aS //this store the song url which we are going to play
   let audioRef = useRef(new Audio(aS));// returns a HTMLAudioElement which can be either attached to a document for the user to interact with and/or listen to, or can be used offscreen to manage and play audio.
-  //initially we are initialing it with 0 index as default and when we got the current song url and we press the play button it will go to audioSrc
+
 
 
 
@@ -48,9 +61,34 @@ const HoverPlayer = () => {
   let d = Math.ceil(duration);
   let a = Math.ceil(data?.trackProgess);
   let currentPercentage = (a / d) * 100;
-  dispatch(dataActions.setCurrentPercentage(currentPercentage));
+  if (AudioR.audioChange === false)
+    dispatch(dataActions.setCurrentPercentage(currentPercentage));
   // when the state variable trackProgress changes the entire component rerenders so currentPercentage also changes
 
+  const onChange = (e) => {
+    if (AudioR.audioChange === false) {
+      dispatch(audioActions.setAudioChange(true));
+      const audio = audioRef.current;
+      // audio.pause();
+      audio.currentTime = (audio.duration / 100) * e.target.value;
+      // console.log("changed on click !!",audio.currentTime,(audio.duration / 100) * e.target.value);
+      dispatch(dataActions.setCurrentPercentage(e.target.value));
+      dispatch(audioActions.setValue(e.target.value));
+      dispatch(audioActions.setAudioChange(false));
+    }
+  }
+
+
+  useEffect(() => {
+    if (AudioR?.audioChange === true) {
+      const audio = audioRef.current;
+      audio.currentTime = (audio.duration / 100) * AudioR?.value;
+      console.log("changed on click 2", audio.currentTime);
+      dispatch(dataActions.setCurrentPercentage(AudioR?.value));
+      dispatch(audioActions.setAudioChange(false));
+      dispatch(audioActions.setValue(-1));
+    }
+  }, [AudioR?.audioChange])
 
 
   let startTimer = () => {
@@ -64,7 +102,9 @@ const HoverPlayer = () => {
       }
       else {
         // setTrackProgress(audioRef.current.currentTime);
+
         dispatch(dataActions.setTrackProgess(audioRef.current.currentTime));
+
         //currentTime is also the audio property
       }
       // this is why component is being rendered every time
@@ -142,9 +182,10 @@ const HoverPlayer = () => {
     }
   }, [data?.isPlaying]);
 
-  let navigate=useNavigate();
-  let handleExport=()=>{
-    navigate("/player",{state:{id:info.id,operation:info.operation,img:info.img,name:info.name,des:info.des}});
+  let navigate = useNavigate();
+  let handleExport = () => {
+    dispatch(dataActions.setShow(info.id));
+    navigate("/player", { state: { id: info.id, operation: info.operation, img: info.img, name: info.name, des: info.des } });
   }
 
 
@@ -169,53 +210,71 @@ const HoverPlayer = () => {
   }
 
   let artists = [];
-  
-  data?.currenttrack?.album?.artists.forEach((artist) => {
-    artists.push(artist.name);
-  });
+    if (data?.operation === 1) {
+        data?.currenttrack?.album?.artists.forEach((artist) => {
+            artists.push(artist.name);
+        });
+    }
+    else if (data?.operation === 3) {
+        data?.currenttrack?.artists?.forEach((artist) => {
+            artists.push(artist.name);
+        })
+    }
+    else if(data?.operation===2)
+    {
+        data?.currenttrack?.artists?.forEach((artist) => {
+            artists.push(artist.name);
+        })
+    }
 
   return (
-   <>
-   {data?.show &&
-    <div className='screen-hover flex'>
-      <div className="mini-left ">
-        <div className="mini-img">
-          <img src={(data?.img!==undefined)?data?.img:""} alt="Song" />
-        </div>
-        <div className="mini-text">
-          <p className='text-song-heading'>{(data?.currenttrack?.name!==undefined)?data?.currenttrack?.name:""}</p>
-          <p className='text-song-artist'>{artists.join(",")}</p>
-        </div>
-      </div>
-
-      <div className="mini-center">
-        <div className="mini-center-top flex">
-          <p>0:{addzero(Math.round(data?.trackProgess))}</p>
-          <hr />
-          <p>0:30</p>
-        </div>
-        <div className="mini-center-bottom">
-          <IconContext.Provider value={{ size: "20px", color: "#c4d0e3" }}>
-            <div className="controls-wrapper-mini flex">
-              <div className="action-btn flex" onClick={handleprev}>
-                <IoPlaySkipBack />
-              </div>
-              <div className="play-pause-btn-mini flex" onClick={handlePlay}>
-                {data?.isPlaying ? <FaPause /> : <IoPlay />}
-              </div>
-              <div className="action-btn flex" onClick={handlenext}>
-                <IoPlaySkipForward />
-              </div>
+    <>
+      {data?.show &&
+        <div className='screen-hover flex'>
+          <div className="mini-left ">
+            <div className="mini-img">
+              <img src={(data?.img !== undefined) ? data?.img : ""} alt="Song" />
             </div>
-          </IconContext.Provider>
-        </div>
+            <div className="mini-text">
+              <p className='text-song-heading'>{(data?.currenttrack?.name !== undefined) ? data?.currenttrack?.name : ""}</p>
+              <p className='text-song-artist'>{artists.join(",")}</p>
+            </div>
+          </div>
 
-      </div>
-      <div className="mini-right">
-        <i className="fa-solid fa-arrow-up" onClick={handleExport}></i>
-      </div>
-    </div>
-}
+          <div className="mini-center">
+            <div className="mini-center-top flex">
+              <p>0:{addzero(Math.round(data?.trackProgess))}</p>
+              {!e?.show &&
+                <Slider percentage={data?.currentPercentage} onChange={onChange} />
+              }
+              {
+                e?.show &&
+                <ErrorMsg3 />
+              }
+              <p>0:30</p>
+            </div>
+            <div className="mini-center-bottom">
+              <IconContext.Provider value={{ size: "20px", color: "#c4d0e3" }}>
+                <div className="controls-wrapper-mini flex">
+                  <div className="action-btn flex" onClick={handleprev}>
+                    <IoPlaySkipBack />
+                  </div>
+                  <div className="play-pause-btn-mini flex" onClick={handlePlay}>
+                    {data?.isPlaying ? <FaPause /> : <IoPlay />}
+                  </div>
+                  <div className="action-btn flex" onClick={handlenext}>
+                    <IoPlaySkipForward />
+                  </div>
+                </div>
+              </IconContext.Provider>
+            </div>
+
+          </div>
+          <div className="mini-right">
+            <i className="fa-solid fa-arrow-up" onClick={handleExport}></i>
+          </div>
+        </div>
+      }
     </>
   )
 }
