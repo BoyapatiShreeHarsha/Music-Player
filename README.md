@@ -56,3 +56,28 @@ removed some bugs
 ### phase-2-7
 Deploy
 
+## phase-2 output
+
+## authentication page
+![image](https://github.com/BoyapatiShreeHarsha/Music-Player/assets/110366987/39c06564-8c72-48cb-afa2-e0add1446a1d)
+
+## user library 
+![image](https://github.com/BoyapatiShreeHarsha/Music-Player/assets/110366987/7842558b-e455-4680-994f-e56c95e633c5)
+
+## player page
+![image](https://github.com/BoyapatiShreeHarsha/Music-Player/assets/110366987/3d102c6a-423e-4093-83ac-9a551a1877bb)
+
+## modal in player
+![image](https://github.com/BoyapatiShreeHarsha/Music-Player/assets/110366987/32161289-aa6c-47fe-857b-3aef474358b9)
+
+![image](https://github.com/BoyapatiShreeHarsha/Music-Player/assets/110366987/ba37113f-d565-428a-9d9e-faea50701ec1)
+
+## mini player
+![image](https://github.com/BoyapatiShreeHarsha/Music-Player/assets/110366987/fbd2b283-16e3-4706-888a-1280e246de4f)
+
+
+
+
+
+
+
