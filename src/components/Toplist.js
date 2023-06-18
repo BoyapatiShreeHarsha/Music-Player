@@ -73,7 +73,7 @@ const Toplist = () => {
         } catch (error) {
             setE(true);
             dispatch(errorActions.setCode(3));
-            dispatch(errorActions.setMsg("Something wrong with the server"));
+            dispatch(errorActions.setMsg(error?.response?.data?.error?.message));
             console.log(error);
         }
     }

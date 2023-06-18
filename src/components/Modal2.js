@@ -15,6 +15,7 @@ const Modal2 = ({ data, setOpenModal2,setDirectopenModal }) => {
     let Submitted = async (e) => {
         e.preventDefault();
         // console.log(credentials.name, credentials.description, pub);
+        // console.log(data);
 
         try {
 
@@ -23,8 +24,10 @@ const Modal2 = ({ data, setOpenModal2,setDirectopenModal }) => {
             let response1 = await apiClient.get('/v1/me');
             // console.log(response1?.data?.id);
             id = response1?.data?.id;
-            //creating a playlist
 
+
+            //creating a playlist
+            // console.log("creating the playlist name");
             let data1 = {
                 'name': credentials.name,
                 'description': credentials.description,
@@ -38,7 +41,7 @@ const Modal2 = ({ data, setOpenModal2,setDirectopenModal }) => {
             })
 
             // console.log(response2);
-
+            // console.log("adding the tracks");
             let newPlaylistId = response2?.data?.id;
 
             // adding the tracks to playlist
@@ -54,7 +57,7 @@ const Modal2 = ({ data, setOpenModal2,setDirectopenModal }) => {
 
             // console.log(response3);
 
-
+            setDirectopenModal(true);
 
 
         } catch (error) {
@@ -99,7 +102,7 @@ const Modal2 = ({ data, setOpenModal2,setDirectopenModal }) => {
 
                 </div>
                 <div className="modal2-btn">
-                <button type="submit" className="modal2-submit" onClick={() => { setDirectopenModal(true) }}>Create</button>
+                <button type="submit" className="modal2-submit">Create</button>
                 <button type="reset" className="modal2-exit" onClick={() => { setOpenModal2(false) }}>Cancel</button>
                 </div>
             </form>

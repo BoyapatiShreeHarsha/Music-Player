@@ -70,7 +70,7 @@ const Recent = () => {
     } catch (error) {
       setE(true);
       dispatch(errorActions.setCode(3));
-      dispatch(errorActions.setMsg("Something wrong happen with Server"));
+      dispatch(errorActions.setMsg(error?.response?.data?.error?.message));
       console.log(error);
     }
   }
@@ -98,7 +98,7 @@ const Recent = () => {
     } catch (error) {
       setE(true);
       dispatch(errorActions.setCode(3));
-      dispatch(errorActions.setMsg("Something wrong happen with Server"));
+      dispatch(errorActions.setMsg(error?.response?.data?.error?.message));
       console.log(error);
     }
   }

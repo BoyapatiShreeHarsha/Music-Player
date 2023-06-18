@@ -26,7 +26,7 @@ function Queue({track, setcurrentindex, operation, currentindex }) {
     }
     setPrev(p);
     let c=[];
-    c.push(track[currentindex])
+    c.push(track[currentindex]);
     setCurr(c);
   }
 

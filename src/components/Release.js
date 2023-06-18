@@ -72,7 +72,7 @@ export default function Feed() {
     } catch (error) {
       setE(true);
       dispatch(errorActions.setCode(3));
-      dispatch(errorActions.setMsg("Something wrong with server"));
+      dispatch(errorActions.setMsg(error?.response?.data?.error?.message));
       console.log(error);
     }
   }

@@ -13,7 +13,7 @@ const modalSlice = createSlice({
         },
         setModal3(state,action)
         {
-            state.modal1=action.payload;
+            state.modal3=action.payload;
         }
 
     }

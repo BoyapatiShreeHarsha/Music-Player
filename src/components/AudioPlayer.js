@@ -9,7 +9,7 @@ import Slider from './Slider'
 import { audioActions } from '../store/audio-slice'
 import ErrorMsg3 from './ErrorMsg3'
 
-function AudioPlayer({ info, currenttrack, currentindex, setCurrentindex, track, img }) {
+function AudioPlayer({ info, currenttrack, currentindex, setCurrentindex, track, img ,modal1,setModal3}) {
     // this component is being rendered every second
     // console.log(currenttrack);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -38,17 +38,35 @@ function AudioPlayer({ info, currenttrack, currentindex, setCurrentindex, track,
 
     //changing the state acc to the mini-player
     // console.log("isPlaying ",isPlaying,"display ",display,"data.show",data?.show);
-
+    // console.log("isPlaying",isPlaying,"display",display,"trackP",data?.trackprogess,"percentage",data?.currentPercentage);
     useEffect(() => {
+        if(data?.deletedData===true)
+        {
+            sendData();
+            dispatch(dataActions.setDeletedData(false));
+        }
         if(display===false)
         {
-            dispatch(dataActions.setIsPlaying(isPlaying));
+            if(data?.exportData===false)
+            {
+                // console.log("entered the display->false");
+                dispatch(dataActions.setIsPlaying(isPlaying));
+                // console.log("Sending wrong data");
+                // sendData();
+            }
+            else
+            {
+                if(currentindex===data?.currentindex)
+                dispatch(dataActions.setExportData(false));
+            }
         }
+
         if (isPlaying === true) {
             if (display === true) {
+                // console.log("entered the play->true , display->true");
                 sendData();
                 setDisplay(false);
-                // console.log("sending AP data if part");
+                // console.log("sending AP data on playing");
                 dispatch(infoActions.setId(info.id));
                 dispatch(infoActions.setOperation(info.operation));
                 dispatch(infoActions.setName(info.name));
@@ -68,18 +86,21 @@ function AudioPlayer({ info, currenttrack, currentindex, setCurrentindex, track,
     }, [isPlaying, id, currenttrack, track, operation, img]);
 
 
+    // to change data when exported
     useEffect(() => {
         if (display === false && currentindex != data?.currentindex) {
             // console.log("data is setting the index",data?.currentindex);
             setCurrentindex(data?.currentindex);
         }
 
-        if (data.show === false && data.id === id && data?.currentindex !== currentindex && display == true) {
+        if (data.show === false && data.id === id  && display === true) {
             // console.log("Meet the conditions");
             setDisplay(false);
             // dispatch(dataActions.setImportdata(true));
             setIsPlaying(data?.isPlaying);
             setCurrentindex(data?.currentindex);
+            // console.log("Going to change to",data?.currentindex);
+            
         }
     }, [data])
 
@@ -109,6 +130,7 @@ function AudioPlayer({ info, currenttrack, currentindex, setCurrentindex, track,
         }
         else {
             dispatch(dataActions.handlenext());
+            dispatch(dataActions.setTrackProgess(0));
         }
     }
 
@@ -121,6 +143,7 @@ function AudioPlayer({ info, currenttrack, currentindex, setCurrentindex, track,
         }
         else {
             dispatch(dataActions.handleprev());
+            dispatch(dataActions.setTrackProgess(0));
         }
     }
 
@@ -154,15 +177,15 @@ function AudioPlayer({ info, currenttrack, currentindex, setCurrentindex, track,
                 <p className="song-artist">{artists.join(" | ")}</p>
                 <div className="audio-right-bottom flex">
                     <div className="song-duration flex">
-                        <p className="duration">0:{(display === true) ? "00" : addzero(Math.round(data?.trackProgess))}</p>
+                        <p className="duration">0:{(display === true ) ? "00" : addzero(Math.round(data?.trackProgess))}</p>
                         {!e?.show &&
-                            <Slider percentage={(display === false) ? data?.currentPercentage : 0} onChange={onChange} />}
+                            <Slider percentage={(display === false && data?.trackProgess!=0) ? data?.currentPercentage : 0} onChange={onChange} />}
                         {
                             e?.show && <ErrorMsg3 />
                         }
                         <p className="duration">0:{Math.round(data?.duration) === 30 ? Math.round(data?.duration) : "30"}</p>
                     </div>
-                    <Controls isPlaying={isPlaying} setIsPlaying={setIsPlaying} handleNext={handleNext} handlePrev={handlePrev} currenttrack={currenttrack} />
+                    <Controls isPlaying={isPlaying} setIsPlaying={setIsPlaying} handleNext={handleNext} handlePrev={handlePrev} currenttrack={currenttrack} modal1={modal1} setModal3={setModal3} />
                 </div>
 
             </div>

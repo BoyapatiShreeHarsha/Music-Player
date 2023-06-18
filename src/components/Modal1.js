@@ -7,21 +7,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../store/modal-slice';
 
 
-export const Modal1 = ({ list }) => {
-    // console.log(list[0]);
+export const Modal1 = ({ list,setModal1 }) => {
+    console.log(list);
     const [playlists, setPlaylists] = useState([]);
     const [uri, setUri] = useState([]);
     const [openModal2, setOpenModal2] = useState(false);
     const [directopenModal, setDirectopenModal] = useState(false);
+    
     let dispatch=useDispatch();
-    let modal=useSelector(state=>state.modal1);
+
+    let id;
+
+    let isOwned=(ele)=>{
+        return id===ele?.owner?.id;
+    }
 
     let getplaylist = async () => {
         try {
+            
+            let response1 = await apiClient.get('/v1/me');
+            id=response1?.data?.id;
             let respons2 = await apiClient.get(`/v1/me/playlists?offset=0&limit=50`);
             // console.log(respons2);
-            // console.log(respons2.data.items);
-            setPlaylists(respons2?.data?.items);
+            let arr=respons2.data.items.filter(isOwned)
+            // console.log(arr);
+            setPlaylists(arr);
 
         } catch (error) {
             console.log(error);
@@ -48,7 +58,7 @@ export const Modal1 = ({ list }) => {
 
     useEffect(()=>{
         if(directopenModal===true)
-        dispatch(modalActions.setModal1(false));
+        setModal1(false);
     })
 
 
@@ -72,7 +82,7 @@ export const Modal1 = ({ list }) => {
 
             // console.log(respons);
             setDirectopenModal(false);
-            dispatch(modalActions.setModal1(false));
+            setModal1(false);
         } catch (error) {
             console.log(error);
         }
@@ -83,7 +93,7 @@ export const Modal1 = ({ list }) => {
         <>
             {!openModal2 &&  <>
             <div className="modal1-heading flex">
-                <div className='modal1-heading-button' onClick={() => { dispatch(modalActions.setModal1(false)); }}>&times;</div>
+                <div className='modal1-heading-button' onClick={() => { dispatch(modalActions.setModal1(false))}}>&times;</div>
                 <div className='modal1-heading-text'>Add to Playlist</div>
             </div>
             <div className="modal1-new-playlist" onClick={()=>{

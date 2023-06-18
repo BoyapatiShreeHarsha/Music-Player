@@ -4,6 +4,7 @@ import infoSlice from "./info-slice";
 import audioSlice from "./audio-slice";
 import modalSlice from "./modal-slice";
 import errorSlice from "./error-slice";
+import searchSlice from "./search-slice";
 
 
 const store=configureStore({
@@ -13,6 +14,7 @@ const store=configureStore({
         audio:audioSlice.reducer,
         modal:modalSlice.reducer,
         error:errorSlice.reducer,
+        search:searchSlice.reducer,
     },
 });
 

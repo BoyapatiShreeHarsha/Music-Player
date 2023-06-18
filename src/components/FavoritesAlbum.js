@@ -61,7 +61,7 @@ const FavoritesAlbum = () => {
       let response = await apiClient.get(`/v1/me/albums?offset=${offset}&limit=5`);
       // console.log(response);
       setfav_album([...response?.data?.items]);
-      if (response?.data?.items===0) {
+      if (response?.data?.total===0) {
         setE(true);
         dispatch(errorActions.setCode(2));
         dispatch(errorActions.setMsg("It seems that there are no more albums"));
@@ -72,7 +72,7 @@ const FavoritesAlbum = () => {
     } catch (error) {
       setE(true);
       dispatch(errorActions.setCode(3));
-      dispatch(errorActions.setMsg("Something wrong with server"));
+      dispatch(errorActions.setMsg(error?.response?.data?.error?.message));
       console.log(error);
     }
   }

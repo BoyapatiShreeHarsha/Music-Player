@@ -5,7 +5,8 @@ import apiClient from '../spotify';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../store/modal-slice';
 
-const PlaylistCover = ({ cover }) => {
+const PlaylistCover = ({ cover, setModal1 }) => {
+   
     // console.log(cover?.id);
     // console.log(id,operation,img,name,des);
     // console.log(cover);
@@ -71,7 +72,7 @@ const PlaylistCover = ({ cover }) => {
                 </div>
                 <div className="flex">
                     {cover?.operation!==2 &&
-                <div className="cover-buttons" onClick={() => {dispatch(modalActions.setModal1(true))}}>
+                <div className="cover-buttons" onClick={() => {setModal1(true)}}>
                     <i className="fa-solid fa-plus" style={{ color: '#ffffff' ,fontSize:'larger'}}></i>
                 </div>}
 

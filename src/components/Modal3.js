@@ -3,10 +3,11 @@ import { useState, useEffect } from "react"
 import apiClient from '../spotify'
 import { Modal1 } from './Modal1';
 import '../components_css/Modal3.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal-slice';
+import { useDispatch } from 'react-redux';
+import { dataActions } from '../store/data-slice';
 
-const Modal3 = ({ trackid, currenttrackid, operation,  update, currentindex, currenttrack }) => {
+
+const Modal3 = ({ trackid, currenttrackid, operation,  update, currentindex, currenttrack,setModal3 }) => {
 
     // console.log(currenttrack);
     let a = currenttrack?.uri;
@@ -15,11 +16,10 @@ const Modal3 = ({ trackid, currenttrackid, operation,  update, currentindex, cur
     const [display, setDisplay] = useState(false);
     const [snapshot, setSnapshot] = useState(undefined);
 
-    let modal=useSelector(state=>state.modal);
     let dispatch=useDispatch();
 
     let closemodal = () => {
-        dispatch(modalActions.setModal3(false));
+        setModal3(false);
     }
 
 
@@ -36,7 +36,7 @@ const Modal3 = ({ trackid, currenttrackid, operation,  update, currentindex, cur
 
     let deleteTheTrack = async () => {
         try {
-            console.log("in delete track", snapshot);
+            // console.log("in delete track", snapshot);
             
             let response = await apiClient.delete(`/v1/playlists/${trackid}/tracks`, {
                 headers: {
@@ -52,6 +52,7 @@ const Modal3 = ({ trackid, currenttrackid, operation,  update, currentindex, cur
                     "snapshot_id": `${snapshot}`
                 }
             })
+            dispatch(dataActions.setDeletedData(true));
             update(currentindex);
             closemodal();
 
@@ -62,9 +63,10 @@ const Modal3 = ({ trackid, currenttrackid, operation,  update, currentindex, cur
     }
 
     let addTheTrack = () => {
+        console.log(currenttrackid);
         let arr = [currenttrackid];
         setList(arr);
-        dispatch(modalActions.setModal1(true));
+        setOpenModal(true);
     }
 
     useEffect(() => {
@@ -79,7 +81,7 @@ const Modal3 = ({ trackid, currenttrackid, operation,  update, currentindex, cur
     return (
         <>
             {
-                !modal?.modal1 && <div className="modal-3 flex">
+                !openModal && <div className="modal-3 flex">
                     <div className="modal3-heading-button" onClick={closemodal}>&times;</div>
                     <div className="modal3-body flex">
                         <div className="modal3-button" onClick={() => addTheTrack()}>Add to playlist</div>
@@ -88,7 +90,7 @@ const Modal3 = ({ trackid, currenttrackid, operation,  update, currentindex, cur
                 </div>
             }
             {
-                modal?.modal1 && <Modal1 list={list} />
+                openModal && <Modal1 list={list} setModal1={setOpenModal} />
             }
         </>
 

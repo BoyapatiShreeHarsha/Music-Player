@@ -13,7 +13,9 @@ const dataSlice = createSlice({
         isPlaying: false,
         currentPercentage: 0,
         duration: 0,
-        show: false
+        show: false,
+        exportData:false,
+        deletedData:false,
     },
     reducers: {
         setId(state, action) {
@@ -79,6 +81,12 @@ const dataSlice = createSlice({
                 }
             }
         },
+        setExportData(state,action){
+            state.exportData=action.payload;
+        },
+        setDeletedData(state,action){
+            state.deletedData=action.payload;
+        }
       
     }
 })

@@ -14,3 +14,10 @@
     border-top-right-radius: 0px;
     background-color: #27354d;
 }
+
+.minimize-right{
+    height: 85%;
+}
+.normal-right{
+    height: 97%;
+}

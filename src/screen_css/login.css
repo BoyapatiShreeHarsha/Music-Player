@@ -1,5 +1,5 @@
 .login-page {
-    background-color: white;
+  background-color: #1E2A3E;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -11,15 +11,30 @@
   }
   
   .logo {
-    width: 30%;
+    width: 5%;
     aspect-ratio: 1;
+  }
+
+  .login-heading{
+    margin-top: 2%;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-size: 36px;
+    color: #c4d0e3;
+    font-family: 'Comfortaa', cursive;
+    margin-bottom: 5%;
+  }
+
+  .login-heading>p{
+    margin: auto 1px;
   }
   
   .login-btn {
     width: 200px;
     padding: 15px 0px;
     text-align: center;
-    background-color: #1f1f1f;
+    background-color: #E99D72;
     border-radius: 50px;
     color: white;
     font-weight: 600;
@@ -31,11 +46,38 @@
     text-decoration: none;
   }
 
-  .login-heading{
-    font-family: 'Comfortaa', cursive;
-    font-size: larger;
-  }
 
   .login-name{
     font-family: 'Kanit', sans-serif;
+    font-weight: 400;
+    font-size: large;
+    text-align: center;
+    color: #c4d0e3;
+    font-family: 'Comfortaa', cursive;
+    margin-bottom: 5%;
+  }
+
+
+  .login-card{
+    position: relative;
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+    background-color: rgb(30, 42, 62);
+    border: 1px solid rgba(54,69,98,0.18);
+    padding: 1% 2%;
+    margin: 2% 2%;
+    background: linear-gradient(75deg,rgb(40,58,88) 0%,rgba(54,69,98,0) 100%);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    
+    font-family: 'Kanit', sans-serif;
+    font-weight: 400;
+    font-size: large;
+    text-align: center;
+    color: #c4d0e37c;
+  }
+
+  .login-error{
+    color: #c4d0e3;
   }

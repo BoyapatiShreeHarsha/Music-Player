@@ -83,7 +83,7 @@ const HoverPlayer = () => {
     if (AudioR?.audioChange === true) {
       const audio = audioRef.current;
       audio.currentTime = (audio.duration / 100) * AudioR?.value;
-      console.log("changed on click 2", audio.currentTime);
+      // console.log("changed on click 2", audio.currentTime);
       dispatch(dataActions.setCurrentPercentage(AudioR?.value));
       dispatch(audioActions.setAudioChange(false));
       dispatch(audioActions.setValue(-1));
@@ -184,8 +184,10 @@ const HoverPlayer = () => {
 
   let navigate = useNavigate();
   let handleExport = () => {
-    dispatch(dataActions.setShow(info.id));
+    dispatch(dataActions.setExportData(true));
+    // console.log("Sending data",info);
     navigate("/player", { state: { id: info.id, operation: info.operation, img: info.img, name: info.name, des: info.des } });
+    dispatch(dataActions.setShow(info.id));
   }
 
 

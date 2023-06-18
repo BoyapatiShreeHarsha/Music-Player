@@ -7,7 +7,7 @@ import apiClient from '../spotify'
 import { useDispatch, useSelector } from 'react-redux'
 import { modalActions } from '../store/modal-slice'
 
-const Controls = ({ isPlaying, setIsPlaying, handleNext, handlePrev, currenttrack}) => {
+const Controls = ({ isPlaying, setIsPlaying, handleNext, handlePrev, currenttrack,modal1,setModal3}) => {
   //data comes here every sec that why for fav checkFav is there
   
   const [fav, setFav] = useState(false);
@@ -64,9 +64,9 @@ const Controls = ({ isPlaying, setIsPlaying, handleNext, handlePrev, currenttrac
           </div>
         </IconContext.Provider>
         <div className="control-icons" >
-          { !modal?.modal1 &&
+          { !modal1 &&
           <i className="fa-solid fa-ellipsis-vertical" style={{ color: "white",cursor:"pointer" }} onClick={() => {
-            dispatch(modalActions.setModal3(true));
+            setModal3(true);
             setIsPlaying(false);
           }} ></i>
         }

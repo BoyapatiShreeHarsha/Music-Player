@@ -24,6 +24,8 @@ const ErrorMsg = () => {
         {
           return <BiErrorAlt/>
         }
+        else
+        return <RxCrossCircled/>;
     }
 
   return (
